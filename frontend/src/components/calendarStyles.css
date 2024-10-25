@@ -31,7 +31,7 @@
 /* Cambiar el color del texto en la agenda de citas */
 .rbc-event {
   color: black; /* Cambia el color del texto de los eventos a negro */
-  background-color: rgba(255, 255, 255, 0.8); /* Opcional: ajusta el fondo para que contraste con el texto */
+  background-color: rgba(76, 153, 189, 0.8); /* Opcional: ajusta el fondo para que contraste con el texto */
 }
 
 /* Cambiar el color del texto en los encabezados de eventos */
