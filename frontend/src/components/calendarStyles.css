@@ -1,0 +1,47 @@
+/* calendarStyles.css */
+
+/* Estilo para el mes */
+.rbc-toolbar {
+  background-color: #f9fafb; /* Fondo claro */
+  color: #000; /* Texto negro */
+}
+
+/* Estilo para los números del calendario */
+.rbc-calendar .rbc-month-view .rbc-day-slot .rbc-day-slot .rbc-day-slot-cell {
+  color: #000 !important; /* Números en negro */
+}
+
+/* Estilo para los días del mes */
+.rbc-calendar .rbc-month-view .rbc-day-slot {
+  color: #000 !important; /* Días en negro */
+}
+
+/* Estilo para los encabezados de los días */
+.rbc-calendar .rbc-header {
+  color: #000 !important; /* Encabezados en negro */
+}
+
+/* Estilo para los eventos en el calendario */
+.rbc-event {
+  background-color: #4f46e5; /* Color del evento */
+  color: #fff; /* Texto en blanco */
+  border-radius: 4px;
+}
+
+/* Cambiar el color del texto en la agenda de citas */
+.rbc-event {
+  color: black; /* Cambia el color del texto de los eventos a negro */
+  background-color: rgba(255, 255, 255, 0.8); /* Opcional: ajusta el fondo para que contraste con el texto */
+}
+
+/* Cambiar el color del texto en los encabezados de eventos */
+.rbc-header {
+  color: black; /* Cambia el color de los encabezados de los eventos a negro */
+}
+
+/* Cambiar el color del texto en el área del calendario si es necesario */
+.rbc-calendar {
+  color: black; /* Cambia el color de todo el texto en el calendario a negro */
+}
+
+
