@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
+import { Link } from 'react-router-dom'; // Asegúrate de importar Link
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './calendarStyles.css'; // Importa tu archivo CSS personalizado
 
@@ -48,6 +49,11 @@ const MyCalendar = () => {
           }}
         />
       </div>
+
+      {/* Botón para volver al menú */}
+      <Link to="/" style={{ padding: '10px 20px', backgroundColor: '#FF5733', color: '#fff', border: 'none', cursor: 'pointer', marginTop: '10px', display: 'inline-block', textDecoration: 'none', textAlign: 'center' }}>
+        Volver al Menú
+      </Link>
     </div>
   );
 };

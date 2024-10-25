@@ -1,5 +1,6 @@
 // src/components/AgregarPracticante.jsx
 import { useState } from 'react';
+import { Link } from 'react-router-dom'; // Importamos Link para la navegación
 
 function AgregarPracticante() {
   // Estado para los valores del formulario
@@ -174,9 +175,16 @@ function AgregarPracticante() {
           style={{ width: '100%', padding: '8px', marginTop: '5px' }}
         />
       </div>
+
+      {/* Botón de Registrarse */}
       <button type="submit" style={{ padding: '10px 20px', backgroundColor: '#4CAF50', color: '#fff', border: 'none', cursor: 'pointer' }}>
         Registrarse
       </button>
+
+      {/* Botón para volver al menú principal usando Link */}
+      <Link to="/" style={{ padding: '10px 20px', backgroundColor: '#FF5733', color: '#fff', border: 'none', cursor: 'pointer', marginLeft: '10px', display: 'inline-block', textDecoration: 'none' }}>
+        Volver al Menú
+      </Link>
     </form>
   );
 }

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom'; // Asegúrate de importar Link
 
 function AgregarProfesional() {
   // Estado para los valores del formulario
@@ -147,6 +148,11 @@ function AgregarProfesional() {
       <button type="submit" style={{ padding: '10px 20px', backgroundColor: '#4CAF50', color: '#fff', border: 'none', cursor: 'pointer' }}>
         Registrarse
       </button>
+
+      {/* Botón para volver al menú */}
+      <Link to="/" style={{ padding: '10px 20px', backgroundColor: '#FF5733', color: '#fff', border: 'none', cursor: 'pointer', marginLeft: '10px', display: 'inline-block', textDecoration: 'none' }}>
+        Volver al Menú
+      </Link>
     </form>
   );
 }
