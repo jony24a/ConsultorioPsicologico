@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 function AgregarPacientes() {
   // Estado para los valores del formulario

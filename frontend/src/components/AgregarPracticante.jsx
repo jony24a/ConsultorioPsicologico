@@ -1,5 +1,5 @@
 // src/components/AgregarPracticante.jsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 function AgregarPracticante() {
   // Estado para los valores del formulario
