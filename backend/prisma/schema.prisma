@@ -18,7 +18,7 @@ model Practicante {
   estrato               Int
   barrio                String     @db.VarChar(50)
   localidad             String     @db.VarChar(50)
-  periodo               Int
+  periodo               String     @db.VarChar(50)
   jornada               String     @db.VarChar(10)
   ano_matricula         Int
   pacientes             Paciente[] @relation("PracticantePaciente")
