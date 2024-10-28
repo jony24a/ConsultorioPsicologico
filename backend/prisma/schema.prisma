@@ -11,84 +11,71 @@ generator client {
 
 // Modelo de Practicante
 model Practicante {
-  numero_documento      Int        @id
-  tipo_documento        String     @db.VarChar(10)
-  nombre                String     @db.VarChar(50)
-  genero                String     @db.VarChar(10)
-  estrato               Int
-  barrio                String     @db.VarChar(50)
-  localidad             String     @db.VarChar(50)
-  periodo               String     @db.VarChar(50)
-  jornada               String     @db.VarChar(10)
-  ano_matricula         Int
-  pacientes             Paciente[] @relation("PracticantePaciente")
-  citas                 Cita[]     @relation("CitaPracticante")
+  id               Int    @id @unique @default(autoincrement())
+  numero_documento Int
+  tipo_documento   String @db.VarChar(10)
+  nombre           String @db.VarChar(50)
+  genero           String @db.VarChar(10)
+  estrato          Int
+  barrio           String @db.VarChar(50)
+  localidad        String @db.VarChar(50)
+  periodo          String @db.VarChar(50)
+  jornada          String @db.VarChar(10)
+  ano_matricula    Int
 }
 
 // Modelo de Profesional
 model Profesional {
-  numero_documento      Int        @id
-  tipo_documento        String     @db.VarChar(10)
-  nombre                String     @db.VarChar(50)
-  genero                String     @db.VarChar(10)
-  estrato               Int
-  barrio                String     @db.VarChar(50)
-  localidad             String     @db.VarChar(50)
-  pacientes             Paciente[] @relation("ProfesionalPaciente")
-  citas                 Cita[]     @relation("CitaProfesional")
+  numero_documento Int    @id
+  tipo_documento   String @db.VarChar(10)
+  nombre           String @db.VarChar(50)
+  genero           String @db.VarChar(10)
+  estrato          Int
+  barrio           String @db.VarChar(50)
+  localidad        String @db.VarChar(50)
 }
 
 // Modelo de Paciente
 model Paciente {
-  numero_documento             Int                  @id
-  tipo_documento               String               @db.VarChar(10)
-  nombre                       String               @db.VarChar(50)
-  genero                       String               @db.VarChar(10)
+  numero_documento             Int    @id
+  tipo_documento               String @db.VarChar(10)
+  nombre                       String @db.VarChar(50)
+  genero                       String @db.VarChar(10)
   estrato                      Int
-  barrio                       String               @db.VarChar(50)
-  localidad                    String               @db.VarChar(50)
-  escolaridad                  String               @db.VarChar(20)
+  barrio                       String @db.VarChar(50)
+  localidad                    String @db.VarChar(50)
+  escolaridad                  String @db.VarChar(20)
   numero_documento_practicante Int?
   numero_documento_profesional Int?
-  practicante                  Practicante?         @relation("PracticantePaciente", fields: [numero_documento_practicante], references: [numero_documento])
-  profesional                  Profesional?         @relation("ProfesionalPaciente", fields: [numero_documento_profesional], references: [numero_documento])
-  citas                        Cita[]               @relation("PacienteCitas")
-  historialClinico             HistorialClinico[]
-  calendario                   Calendario[]
 }
 
 // Modelo de Cita
 model Cita {
-  id_cita                     Int          @id @default(autoincrement())
-  fecha                       DateTime
-  hora                        DateTime     @db.Time
-  lugar                       String       @db.VarChar(50)
-  numero_documento_paciente   Int
+  id_cita                      Int      @id @default(autoincrement())
+  fecha                        DateTime
+  hora                         DateTime @db.Time
+  lugar                        String   @db.VarChar(50)
+  numero_documento_paciente    Int
   numero_documento_profesional Int?
   numero_documento_practicante Int?
-  paciente                    Paciente     @relation("PacienteCitas", fields: [numero_documento_paciente], references: [numero_documento])
-  profesional                 Profesional? @relation("CitaProfesional", fields: [numero_documento_profesional], references: [numero_documento])
-  practicante                 Practicante? @relation("CitaPracticante", fields: [numero_documento_practicante], references: [numero_documento])
 }
 
 // Modelo de HistorialClinico
 model HistorialClinico {
-  id_historial_clinico        Int          @id @default(autoincrement())
-  motivo_consulta             String       @db.VarChar(100)
-  remitido                    String       @db.VarChar(100)
-  estado_proceso              String       @db.VarChar(50)
-  diagnostico                 String       @db.VarChar(200)
-  numero_documento_paciente   Int
-  paciente                    Paciente     @relation(fields: [numero_documento_paciente], references: [numero_documento])
+  id_historial_clinico      Int    @id @default(autoincrement())
+  motivo_consulta           String @db.VarChar(100)
+  remitido                  String @db.VarChar(100)
+  estado_proceso            String @db.VarChar(50)
+  diagnostico               String @db.VarChar(200)
+  numero_documento_paciente Int
 }
 
 // Modelo de Calendario
 model Calendario {
-  id_calendario               Int          @id @default(autoincrement())
-  disponibilidad_practicante  DateTime
-  fecha                       DateTime     @db.Date
-  hora                        DateTime     @db.Time
-  lugar_cita                  String       @db.VarChar(50)
-  numero_documento_paciente   Int
-  paciente                    Paciente     @relation(fields: [numero_documento_paciente], references: [numero_documento])
+  id_calendario              Int      @id @default(autoincrement())
+  disponibilidad_practicante DateTime
+  fecha                      DateTime @db.Date
+  hora                       DateTime @db.Time
+  lugar_cita                 String   @db.VarChar(50)
+  numero_documento_paciente  Int
 }

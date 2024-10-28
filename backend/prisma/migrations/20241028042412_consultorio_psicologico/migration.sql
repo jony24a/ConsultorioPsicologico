@@ -1,5 +1,6 @@
 -- CreateTable
 CREATE TABLE `Practicante` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `numero_documento` INTEGER NOT NULL,
     `tipo_documento` VARCHAR(10) NOT NULL,
     `nombre` VARCHAR(50) NOT NULL,
@@ -7,11 +8,12 @@ CREATE TABLE `Practicante` (
     `estrato` INTEGER NOT NULL,
     `barrio` VARCHAR(50) NOT NULL,
     `localidad` VARCHAR(50) NOT NULL,
-    `periodo` INTEGER NOT NULL,
+    `periodo` VARCHAR(50) NOT NULL,
     `jornada` VARCHAR(10) NOT NULL,
     `ano_matricula` INTEGER NOT NULL,
 
-    PRIMARY KEY (`numero_documento`)
+    UNIQUE INDEX `Practicante_id_key`(`id`),
+    PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -79,24 +81,3 @@ CREATE TABLE `Calendario` (
 
     PRIMARY KEY (`id_calendario`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- AddForeignKey
-ALTER TABLE `Paciente` ADD CONSTRAINT `Paciente_numero_documento_practicante_fkey` FOREIGN KEY (`numero_documento_practicante`) REFERENCES `Practicante`(`numero_documento`) ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `Paciente` ADD CONSTRAINT `Paciente_numero_documento_profesional_fkey` FOREIGN KEY (`numero_documento_profesional`) REFERENCES `Profesional`(`numero_documento`) ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `Cita` ADD CONSTRAINT `Cita_numero_documento_paciente_fkey` FOREIGN KEY (`numero_documento_paciente`) REFERENCES `Paciente`(`numero_documento`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `Cita` ADD CONSTRAINT `Cita_numero_documento_profesional_fkey` FOREIGN KEY (`numero_documento_profesional`) REFERENCES `Profesional`(`numero_documento`) ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `Cita` ADD CONSTRAINT `Cita_numero_documento_practicante_fkey` FOREIGN KEY (`numero_documento_practicante`) REFERENCES `Practicante`(`numero_documento`) ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `HistorialClinico` ADD CONSTRAINT `HistorialClinico_numero_documento_paciente_fkey` FOREIGN KEY (`numero_documento_paciente`) REFERENCES `Paciente`(`numero_documento`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `Calendario` ADD CONSTRAINT `Calendario_numero_documento_paciente_fkey` FOREIGN KEY (`numero_documento_paciente`) REFERENCES `Paciente`(`numero_documento`) ON DELETE RESTRICT ON UPDATE CASCADE;
