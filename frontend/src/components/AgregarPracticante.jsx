@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom'; // Importamos Link para la navegación
 
+
+
 function AgregarPracticante() {
   // Estado para los valores del formulario
   const [formData, setFormData] = useState({

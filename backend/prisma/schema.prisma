@@ -15,7 +15,7 @@ model Practicante {
   numero_documento Int
   tipo_documento   String @db.VarChar(10)
   nombre           String @db.VarChar(50)
-  genero           String @db.VarChar(10)
+  genero           String @db.VarChar(50)
   estrato          Int
   barrio           String @db.VarChar(50)
   localidad        String @db.VarChar(50)
@@ -29,7 +29,7 @@ model Profesional {
   numero_documento Int    @id
   tipo_documento   String @db.VarChar(10)
   nombre           String @db.VarChar(50)
-  genero           String @db.VarChar(10)
+  genero           String @db.VarChar(50)
   estrato          Int
   barrio           String @db.VarChar(50)
   localidad        String @db.VarChar(50)
@@ -40,7 +40,7 @@ model Paciente {
   numero_documento             Int    @id
   tipo_documento               String @db.VarChar(10)
   nombre                       String @db.VarChar(50)
-  genero                       String @db.VarChar(10)
+  genero                       String @db.VarChar(50)
   estrato                      Int
   barrio                       String @db.VarChar(50)
   localidad                    String @db.VarChar(50)
