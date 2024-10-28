@@ -6,10 +6,6 @@ const practicanteRoutes = require('./routes/practicanteRoutes'); // lo crearemos
 const profesionalRoutes = require('./routes/profesionalRoutes');
 const pacienteRoutes = require('./routes/pacienteRoutes');
 const citaRoutes = require('./routes/pacienteRoutes');
-const { profesional } = require('./config/database');
-const { practicante } = require('./config/database');
-const { paciente } = require('./config/database');
-const { cita } = require('./config/database'); 
 
 const app = express();
 app.use(cors());
