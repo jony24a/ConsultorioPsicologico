@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const practicanteRoutes = require('./routes/practicanteRoutes'); // lo crearemos más adelante
 const profesionalRoutes = require('./routes/profesionalRoutes');
 const pacienteRoutes = require('./routes/pacienteRoutes');
-const citaRoutes = require('./routes/pacienteRoutes');
+const citaRoutes = require('./routes/citaRoutes');
 
 const app = express();
 app.use(cors());
