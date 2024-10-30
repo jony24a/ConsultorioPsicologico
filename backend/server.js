@@ -15,7 +15,7 @@ app.use(express.json()); // Simplificado en lugar de bodyParser.json()
 app.use('/api/practicantes', practicanteRoutes);
 app.use('/api/profesionales', profesionalRoutes); // Cambié a plural para consistencia
 app.use('/api/pacientes', pacienteRoutes);
-app.use('/api/citas', citaRoutes);// Cambié a plural para consistencia
+app.use('/api/citas', citaRoutes); // Cambié a plural para consistencia
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

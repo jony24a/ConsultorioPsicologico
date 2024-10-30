@@ -1,22 +1,20 @@
-// archivo: schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
-}
-
 // Modelo de Practicante
 model Practicante {
   id               Int    @id @unique @default(autoincrement())
-  numero_documento Int
+  numero_documento Int    @unique
   tipo_documento   String @db.VarChar(10)
   nombre           String @db.VarChar(50)
   genero           String @db.VarChar(50)
-  estrato          Int
+  estrato          String @db.VarChar(50)
   barrio           String @db.VarChar(50)
   localidad        String @db.VarChar(50)
   periodo          String @db.VarChar(50)
@@ -26,25 +24,29 @@ model Practicante {
 
 // Modelo de Profesional
 model Profesional {
-  numero_documento Int    @id
+  id               Int    @id @unique @default(autoincrement())
+  numero_documento Int    @unique
   tipo_documento   String @db.VarChar(10)
   nombre           String @db.VarChar(50)
   genero           String @db.VarChar(50)
-  estrato          Int
+  estrato          String @db.VarChar(50)
   barrio           String @db.VarChar(50)
   localidad        String @db.VarChar(50)
 }
 
 // Modelo de Paciente
 model Paciente {
-  numero_documento             Int    @id
+  id                           Int    @id @unique @default(autoincrement())
+  numero_documento             Int    @unique
   tipo_documento               String @db.VarChar(10)
   nombre                       String @db.VarChar(50)
+  telefono                     String @db.VarChar(50)
   genero                       String @db.VarChar(50)
-  estrato                      Int
+  estrato                      String @db.VarChar(50)
   barrio                       String @db.VarChar(50)
   localidad                    String @db.VarChar(50)
-  escolaridad                  String @db.VarChar(20)
+  escolaridad                  String @db.VarChar(50)
+  disponibilidad               String @db.VarChar(50)
   numero_documento_practicante Int?
   numero_documento_profesional Int?
 }
@@ -77,5 +79,15 @@ model Calendario {
   fecha                      DateTime @db.Date
   hora                       DateTime @db.Time
   lugar_cita                 String   @db.VarChar(50)
-  numero_documento_paciente  Int
+  numero_documento_paciente  Int
+}
+
+model HistorialConversacion {
+  id            Int      @id @default(autoincrement())
+  numeroUsuario String   @unique
+  tratDatos     String   @default("")
+  historial     Json?
+  agendamiento  Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
