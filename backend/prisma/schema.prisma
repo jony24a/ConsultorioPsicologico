@@ -53,7 +53,7 @@ model Paciente {
 model Cita {
   id_cita                      Int      @id @default(autoincrement())
   fecha                        DateTime
-  hora                         DateTime @db.Time
+  hora                         String   @db.VarChar(10) 
   lugar                        String   @db.VarChar(50)
   numero_documento_paciente    Int
   numero_documento_profesional Int?
