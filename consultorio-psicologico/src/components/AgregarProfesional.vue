@@ -90,8 +90,4 @@ export default defineComponent({
     };
   },
 });
-<<<<<<< HEAD
 </script>
-=======
-</script>
->>>>>>> 365e395c2f79193004d3bb41c9a6d1b80a512d65

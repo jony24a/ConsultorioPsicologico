@@ -61,12 +61,4 @@ export default defineComponent({
     };
   },
 });
-<<<<<<< HEAD
 </script>
-
-<style scoped>
-/* Agrega estilos adicionales aquí si es necesario */
-</style>
-=======
-</script>
->>>>>>> 365e395c2f79193004d3bb41c9a6d1b80a512d65
