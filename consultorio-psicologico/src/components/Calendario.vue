@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
   <div class="p-6">
     <h2 class="text-3xl font-bold mb-4">Calendario de Citas</h2>
     <div class="overflow-x-auto">
@@ -27,33 +26,6 @@
         </tbody>
       </table>
     </div>
-=======
-  <div>
-    <h2>Calendario de Citas</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Fecha</th>
-          <th>Hora</th>
-          <th>Lugar</th>
-          <th>Paciente</th>
-          <th>Profesional/Practicante</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="cita in citas" :key="cita.id_cita">
-          <td>{{   formatDate(cita.fecha) }}</td>
-          <td>{{ cita.hora }}</td>
-          <td>{{ cita.lugar }}</td>
-          <td>{{ cita.numero_documento_paciente }}</td>
-          <td>
-            {{ cita.numero_documento_profesional || cita.numero_documento_practicante }}
-            ({{ cita.numero_documento_profesional ? 'Profesional' : 'Practicante' }})
-          </td>
-        </tr>
-      </tbody>
-    </table>
->>>>>>> 365e395c2f79193004d3bb41c9a6d1b80a512d65
   </div>
 </template>
 
