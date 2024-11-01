@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div id="app" class="bg-gray-100 min-h-screen">
     <header class="bg-white shadow-lg">
       <nav class="container mx-auto p-4 flex justify-between items-center">
@@ -17,6 +18,17 @@
     <main class="p-4">
       <router-view />
     </main>
+=======
+  <div id="app">
+    <nav>
+      <router-link to="/">Bienvenida</router-link> |
+      <router-link to="/agregar-paciente">Agregar Paciente</router-link> |
+      <router-link to="/agregar-practicante">Agregar Practicante</router-link> |
+      <router-link to="/agregar-profesional">Agregar Profesional</router-link> |
+      <router-link to="/calendario">Calendario</router-link>
+    </nav>
+    <router-view></router-view>
+>>>>>>> 365e395c2f79193004d3bb41c9a6d1b80a512d65
   </div>
 </template>
 
@@ -27,3 +39,30 @@ export default defineComponent({
   name: 'App',
 });
 </script>
+<<<<<<< HEAD
+=======
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+
+nav {
+  padding: 30px;
+}
+
+nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+nav a.router-link-exact-active {
+  color: #42b983;
+}
+</style>
+>>>>>>> 365e395c2f79193004d3bb41c9a6d1b80a512d65
