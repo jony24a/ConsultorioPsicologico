@@ -5,7 +5,7 @@ async function obtenerProfesional(req, res) {
         const profesional = await prisma.profesional.findMany();
         res.json(profesional);
     } catch (error) {
-        res.status(500).json({ error: 'Error al obtyener los profesionales'});
+        res.status(500).json({ error: 'Error al obtener los profesionales'});
     }
 }
 
