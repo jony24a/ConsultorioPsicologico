@@ -7,79 +7,60 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Modelo de Practicante
-model Practicante {
-  id               Int    @id @unique @default(autoincrement())
-  numero_documento Int    @unique
-  tipo_documento   String @db.VarChar(10)
-  nombre           String @db.VarChar(50)
-  genero           String @db.VarChar(50)
-  estrato          String @db.VarChar(50)
-  barrio           String @db.VarChar(50)
-  localidad        String @db.VarChar(50)
-  periodo          String @db.VarChar(50)
-  jornada          String @db.VarChar(10)
-  ano_matricula    Int
+model Personal  {
+  id               Int     @id @unique @default(autoincrement())
+  numero_documento Int     @unique
+  tipo_documento   String  @db.VarChar(10)
+  nombre           String  @db.VarChar(50)
+  genero           String  @db.VarChar(50)
+  estrato          String  @db.VarChar(50)
+  barrio           String  @db.VarChar(50)
+  localidad        String  @db.VarChar(50)
+  es_profesional   Boolean @default(false)
+
+  Citas Cita[] @relation("Personal Cita")
 }
 
-// Modelo de Profesional
-model Profesional {
-  id               Int    @id @unique @default(autoincrement())
-  numero_documento Int    @unique
-  tipo_documento   String @db.VarChar(10)
-  nombre           String @db.VarChar(50)
-  genero           String @db.VarChar(50)
-  estrato          String @db.VarChar(50)
-  barrio           String @db.VarChar(50)
-  localidad        String @db.VarChar(50)
-}
 
-// Modelo de Paciente
 model Paciente {
-  id                           Int    @id @unique @default(autoincrement())
-  numero_documento             Int    @unique
-  tipo_documento               String @db.VarChar(10)
-  nombre                       String @db.VarChar(50)
-  telefono                     String @db.VarChar(50)
-  genero                       String @db.VarChar(50)
-  estrato                      String @db.VarChar(50)
-  barrio                       String @db.VarChar(50)
-  localidad                    String @db.VarChar(50)
-  escolaridad                  String @db.VarChar(50)
-  disponibilidad               String @db.VarChar(50)
-  numero_documento_practicante Int?
-  numero_documento_profesional Int?
+  id               Int                @id @unique @default(autoincrement())
+  numero_documento Int                @unique
+  tipo_documento   String             @db.VarChar(10)
+  nombre           String             @db.VarChar(50)
+  telefono         String             @db.VarChar(50)
+  genero           String             @db.VarChar(50)
+  estrato          String             @db.VarChar(50)
+  barrio           String             @db.VarChar(50)
+  localidad        String             @db.VarChar(50)
+  escolaridad      String             @db.VarChar(50)
+  disponibilidad   String             @db.VarChar(50)
+  Citas            Cita[]             @relation("PacienteCita")
+  HistorialClinico HistorialClinico[]
 }
 
-// Modelo de Cita
 model Cita {
-  id_cita                      Int      @id @default(autoincrement())
+  id_cita                      Int                      @id @default(autoincrement())
   fecha                        DateTime
-  hora                         String   @db.VarChar(10) 
-  lugar                        String   @db.VarChar(50)
-  numero_documento_paciente    Int
-  numero_documento_profesional Int?
-  numero_documento_practicante Int?
+  hora                         DateTime                 @db.Time
+  lugar                        String                   @db.VarChar(50)
+  numero_documento_paciente    Int                      @unique
+  numero_documento_profesional Int
+  Paciente                     Paciente                 @relation("PacienteCita", fields: [numero_documento_paciente], references: [numero_documento])
+  Personal      Personal  @relation("Personal Cita", fields: [numero_documento_profesional], references: [numero_documento])
+  HistorialClinico             HistorialClinico[]
 }
 
-// Modelo de HistorialClinico
 model HistorialClinico {
-  id_historial_clinico      Int    @id @default(autoincrement())
-  motivo_consulta           String @db.VarChar(100)
-  remitido                  String @db.VarChar(100)
-  estado_proceso            String @db.VarChar(50)
-  diagnostico               String @db.VarChar(200)
+  id_historial_clinico      Int       @id @default(autoincrement())
+  motivo_consulta           String    @db.VarChar(100)
+  remitido                  String    @db.VarChar(100)
+  diagnostico               String    @db.VarChar(200)
+  tratamiento               String    @db.VarChar(200)
+  estado_proceso            String    @db.VarChar(50)
   numero_documento_paciente Int
-}
-
-// Modelo de Calendario
-model Calendario {
-  id_calendario              Int      @id @default(autoincrement())
-  disponibilidad_practicante DateTime
-  fecha                      DateTime @db.Date
-  hora                       DateTime @db.Time
-  lugar_cita                 String   @db.VarChar(50)
-  numero_documento_paciente  Int
+  Cita                      Cita      @relation(fields: [numero_documento_paciente], references: [numero_documento_paciente])
+  Paciente                  Paciente? @relation(fields: [pacienteId], references: [id])
+  pacienteId                Int?
 }
 
 model HistorialConversacion {
@@ -89,5 +70,5 @@ model HistorialConversacion {
   historial     Json?
   agendamiento  Boolean  @default(false)
   createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  updatedAt     DateTime @updatedAt
 }
