@@ -1,34 +1,52 @@
-const prisma = require('../config/database');
+// controllers/citaController.js
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
-async function obtenerCita(req, res) {
-    try {
-        const citas = await prisma.cita.findMany();
-        res.json(citas);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Error al obtener la cita' });
+// Función para crear una nueva cita
+const crearCita = async (req, res) => {
+  try {
+    const { fecha, hora, lugar, pacienteId, personalId } = req.body;
+
+    // Verificar si los datos necesarios están presentes
+    if (!fecha || !hora || !lugar || !pacienteId || !personalId) {
+      return res.status(400).json({ error: 'Faltan datos para crear la cita' });
     }
-}
 
-async function crearCita(req, res) {
-    const { fecha, hora, lugar, numero_documento_paciente, numero_documento_profesional, numero_documento_practicante } = req.body;
+    // Crear la cita usando Prisma
+    const nuevaCita = await prisma.cita.create({
+      data: {
+        fecha: new Date(fecha),
+        hora: new Date(`1970-01-01T${hora}Z`), // Asegúrate de que la hora esté en formato ISO
+        lugar,
+        pacienteId,
+        personalId,
+      },
+    });
 
-    try {
-        const cita = await prisma.cita.create({
-            data: {
-                fecha,
-                hora,
-                lugar,
-                numero_documento_paciente,
-                numero_documento_profesional,
-                numero_documento_practicante
-            }
-        });
-        res.status(201).json(cita);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Error al crear la cita' });
-    }
-}
+    // Devolver la cita creada
+    return res.status(201).json(nuevaCita);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Error al crear la cita' });
+  }
+};
 
-module.exports = { obtenerCita, crearCita };
+// Función para obtener todas las citas
+const obtenerCitas = async (req, res) => {
+  try {
+    const citas = await prisma.cita.findMany({
+      include: {
+        Paciente: true,  // Incluir los detalles del paciente
+        Personal: true,   // Incluir los detalles del personal
+      },
+    });
+
+    return res.status(200).json(citas);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Error al obtener las citas' });
+  }
+};
+
+module.exports = { crearCita, obtenerCitas };
+
