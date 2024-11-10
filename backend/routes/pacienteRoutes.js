@@ -1,8 +1,21 @@
+// routes/pacienteRoutes.js
 const express = require('express');
-const { obtenerPaciente, crearPaciente } = require('../controllers/pacienteController');
-const router = express.Router(); // Cambiar a Router()
+const router = express.Router();
+const pacienteController = require('../controllers/pacienteController');
 
-router.get('/', obtenerPaciente);
-router.post('/', crearPaciente);
+// Crear un nuevo paciente
+router.post('/', pacienteController.createPaciente);
+
+// Obtener todos los pacientes
+router.get('/', pacienteController.getAllPacientes);
+
+// Obtener un paciente por ID
+router.get('/:id', pacienteController.getPacienteById);
+
+// Actualizar un paciente
+router.put('/:id', pacienteController.updatePaciente);
+
+// Eliminar un paciente
+router.delete('/:id', pacienteController.deletePaciente);
 
 module.exports = router;
