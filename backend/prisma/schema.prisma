@@ -16,6 +16,7 @@ model Personal {
   estrato          String  @db.VarChar(50)
   barrio           String  @db.VarChar(50)
   localidad        String  @db.VarChar(50)
+  disponibilidad   String @db.VarChar(50)
   es_profesional   Boolean @default(false)
 
   Citas Cita[] @relation("PersonalCita")

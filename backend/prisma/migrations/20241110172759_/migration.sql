@@ -8,6 +8,7 @@ CREATE TABLE `Personal` (
     `estrato` VARCHAR(50) NOT NULL,
     `barrio` VARCHAR(50) NOT NULL,
     `localidad` VARCHAR(50) NOT NULL,
+    `disponibilidad` VARCHAR(50) NOT NULL,
     `es_profesional` BOOLEAN NOT NULL DEFAULT false,
 
     UNIQUE INDEX `Personal_numero_documento_key`(`numero_documento`),

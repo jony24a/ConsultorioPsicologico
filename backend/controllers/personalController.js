@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 // Crear un nuevo miembro del personal
 const createPersonal = async (req, res) => {
-  const { numero_documento, tipo_documento, nombre, genero, estrato, barrio, localidad, es_profesional } = req.body;
+  const { numero_documento, tipo_documento, nombre, genero, estrato, barrio, localidad, disponibilidad, es_profesional } = req.body;
   try {
     const personal = await prisma.personal.create({
       data: {
@@ -15,6 +15,7 @@ const createPersonal = async (req, res) => {
         estrato,
         barrio,
         localidad,
+        disponibilidad,
         es_profesional,
       },
     });
@@ -50,7 +51,7 @@ const getPersonalById = async (req, res) => {
 // Actualizar un miembro del personal
 const updatePersonal = async (req, res) => {
   const { id } = req.params;
-  const { numero_documento, tipo_documento, nombre, genero, estrato, barrio, localidad, es_profesional } = req.body;
+  const { numero_documento, tipo_documento, nombre, genero, estrato, barrio, localidad, disponibilidad, es_profesional } = req.body;
   try {
     const personal = await prisma.personal.update({
       where: { id: parseInt(id) },
@@ -62,6 +63,7 @@ const updatePersonal = async (req, res) => {
         estrato,
         barrio,
         localidad,
+        disponibilidad,
         es_profesional,
       },
     });
