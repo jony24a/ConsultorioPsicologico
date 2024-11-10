@@ -7,8 +7,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Personal  {
-  id               Int     @id @unique @default(autoincrement())
+model Personal {
+  id               Int     @id @default(autoincrement())
   numero_documento Int     @unique
   tipo_documento   String  @db.VarChar(10)
   nombre           String  @db.VarChar(50)
@@ -18,49 +18,49 @@ model Personal  {
   localidad        String  @db.VarChar(50)
   es_profesional   Boolean @default(false)
 
-  Citas Cita[] @relation("Personal Cita")
+  Citas Cita[] @relation("PersonalCita")
 }
 
-
 model Paciente {
-  id               Int                @id @unique @default(autoincrement())
-  numero_documento Int                @unique
-  tipo_documento   String             @db.VarChar(10)
-  nombre           String             @db.VarChar(50)
-  telefono         String             @db.VarChar(50)
-  genero           String             @db.VarChar(50)
-  estrato          String             @db.VarChar(50)
-  barrio           String             @db.VarChar(50)
-  localidad        String             @db.VarChar(50)
-  escolaridad      String             @db.VarChar(50)
-  disponibilidad   String             @db.VarChar(50)
+  id               Int    @id @default(autoincrement())
+  numero_documento Int    @unique
+  tipo_documento   String @db.VarChar(10)
+  nombre           String @db.VarChar(50)
+  telefono         String @db.VarChar(50)
+  genero           String @db.VarChar(50)
+  estrato          String @db.VarChar(50)
+  barrio           String @db.VarChar(50)
+  localidad        String @db.VarChar(50)
+  escolaridad      String @db.VarChar(50)
+  disponibilidad   String @db.VarChar(50)
+
   Citas            Cita[]             @relation("PacienteCita")
   HistorialClinico HistorialClinico[]
 }
 
 model Cita {
-  id_cita                      Int                      @id @default(autoincrement())
-  fecha                        DateTime
-  hora                         DateTime                 @db.Time
-  lugar                        String                   @db.VarChar(50)
-  numero_documento_paciente    Int                      @unique
-  numero_documento_profesional Int
-  Paciente                     Paciente                 @relation("PacienteCita", fields: [numero_documento_paciente], references: [numero_documento])
-  Personal      Personal  @relation("Personal Cita", fields: [numero_documento_profesional], references: [numero_documento])
-  HistorialClinico             HistorialClinico[]
+  id_cita          Int                @id @default(autoincrement())
+  fecha            DateTime
+  hora             DateTime           @db.Time
+  lugar            String             @db.VarChar(50)
+  pacienteId       Int
+  personalId       Int
+  Paciente         Paciente           @relation("PacienteCita", fields: [pacienteId], references: [id])
+  Personal         Personal           @relation("PersonalCita", fields: [personalId], references: [id])
+  HistorialClinico HistorialClinico[]
 }
 
 model HistorialClinico {
-  id_historial_clinico      Int       @id @default(autoincrement())
-  motivo_consulta           String    @db.VarChar(100)
-  remitido                  String    @db.VarChar(100)
-  diagnostico               String    @db.VarChar(200)
-  tratamiento               String    @db.VarChar(200)
-  estado_proceso            String    @db.VarChar(50)
-  numero_documento_paciente Int
-  Cita                      Cita      @relation(fields: [numero_documento_paciente], references: [numero_documento_paciente])
-  Paciente                  Paciente? @relation(fields: [pacienteId], references: [id])
-  pacienteId                Int?
+  id              Int      @id @default(autoincrement())
+  motivo_consulta String   @db.VarChar(100)
+  remitido        String   @db.VarChar(100)
+  diagnostico     String   @db.VarChar(200)
+  tratamiento     String   @db.VarChar(200)
+  estado_proceso  String   @db.VarChar(50)
+  pacienteId      Int
+  citaId          Int
+  Cita            Cita     @relation(fields: [citaId], references: [id_cita])
+  Paciente        Paciente @relation(fields: [pacienteId], references: [id])
 }
 
 model HistorialConversacion {
@@ -72,3 +72,4 @@ model HistorialConversacion {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
+
