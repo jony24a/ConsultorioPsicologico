@@ -4,9 +4,17 @@ const historialClinicoController = require('../controllers/historialClinicoContr
 
 // Rutas para el historial clínico
 router.get('/', historialClinicoController.obtenerHistorialesClinicos);
-router.get('/:id', historialClinicoController.obtenerHistorialClinicoPorId);
+
+// Ruta modificada para obtener historial clínico por numero_documento
+router.get('/paciente/:numero_documento', historialClinicoController.obtenerHistorialClinicoPorDocumento);
+
+// Crear un historial clínico
 router.post('/', historialClinicoController.crearHistorialClinico);
-router.put('/:id', historialClinicoController.actualizarHistorialClinico);
-router.delete('/:id', historialClinicoController.eliminarHistorialClinico);
+
+// Actualizar historial clínico por numero_documento
+router.put('/paciente/:numero_documento', historialClinicoController.actualizarHistorialClinico);
+
+// Eliminar historial clínico por numero_documento
+router.delete('/paciente/:numero_documento', historialClinicoController.eliminarHistorialClinico);
 
 module.exports = router;
