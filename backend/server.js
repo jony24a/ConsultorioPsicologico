@@ -5,11 +5,11 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
-// Rutas
-const pacienteRoutes = require('./routes/pacienteRoutes');
-const citaRoutes = require('./routes/citaRoutes');
+// Importar rutas
 const personalRoutes = require('./routes/personalRoutes');
-const historialClinicoRoutes = require('./routes/historialClinicoRoutes'); // Importar rutas del historial clínico
+const pacienteRoutes = require('./routes/pacienteRoutes'); // Opcional
+const citaRoutes = require('./routes/citaRoutes');         // Opcional
+const historialClinicoRoutes = require('./routes/historialClinicoRoutes'); // Opcional
 
 // Crear una instancia de la aplicación express
 const app = express();
@@ -21,9 +21,9 @@ app.use(cors());
 app.use(express.json());
 
 // Definir las rutas de la API
+app.use('/api/personal', personalRoutes);  // Maneja las rutas relacionadas con personal
 app.use('/api/pacientes', pacienteRoutes); // Maneja las rutas relacionadas con pacientes
 app.use('/api/citas', citaRoutes);         // Maneja las rutas relacionadas con citas
-app.use('/api/personal', personalRoutes);  // Maneja las rutas relacionadas con personal
 app.use('/api/historial-clinico', historialClinicoRoutes); // Maneja las rutas relacionadas con historial clínico
 
 // Configuración del puerto (puede venir desde el archivo .env o usar 3000 por defecto)
