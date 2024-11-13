@@ -6,7 +6,6 @@ const prisma = new PrismaClient();
 const createPaciente = async (req, res) => {
   const { numero_documento, tipo_documento, nombre, telefono, genero, estrato, barrio, localidad, escolaridad, disponibilidad } = req.body;
 
-  // Validación de campos obligatorios
   if (!numero_documento || !tipo_documento || !nombre || !telefono || !genero || !estrato || !barrio || !localidad || !escolaridad || !disponibilidad) {
     return res.status(400).json({ error: "Todos los campos son obligatorios." });
   }
@@ -44,18 +43,13 @@ const getAllPacientes = async (req, res) => {
   }
 };
 
-// Obtener un paciente por ID
-const getPacienteById = async (req, res) => {
-  const { id } = req.params;
-
-  // Asegurarse de que el ID sea un número válido
-  if (isNaN(id)) {
-    return res.status(400).json({ error: "El ID debe ser un número válido." });
-  }
+// Obtener un paciente por numero_documento
+const getPacienteByNumeroDocumento = async (req, res) => {
+  const { numero_documento } = req.params;
 
   try {
     const paciente = await prisma.paciente.findUnique({
-      where: { id: parseInt(id) },
+      where: { numero_documento: parseInt(numero_documento) },
     });
 
     if (!paciente) {
@@ -71,19 +65,13 @@ const getPacienteById = async (req, res) => {
 
 // Actualizar un paciente
 const updatePaciente = async (req, res) => {
-  const { id } = req.params;
-  const { numero_documento, tipo_documento, nombre, telefono, genero, estrato, barrio, localidad, escolaridad, disponibilidad } = req.body;
-
-  // Asegurarse de que el ID sea un número válido
-  if (isNaN(id)) {
-    return res.status(400).json({ error: "El ID debe ser un número válido." });
-  }
+  const { numero_documento } = req.params;
+  const { tipo_documento, nombre, telefono, genero, estrato, barrio, localidad, escolaridad, disponibilidad } = req.body;
 
   try {
     const paciente = await prisma.paciente.update({
-      where: { id: parseInt(id) },
+      where: { numero_documento: parseInt(numero_documento) },
       data: {
-        numero_documento,
         tipo_documento,
         nombre,
         telefono,
@@ -104,22 +92,12 @@ const updatePaciente = async (req, res) => {
 
 // Eliminar un paciente
 const deletePaciente = async (req, res) => {
-  const { id } = req.params;
-
-  // Asegurarse de que el ID sea un número válido
-  if (isNaN(id)) {
-    return res.status(400).json({ error: "El ID debe ser un número válido." });
-  }
+  const { numero_documento } = req.params;
 
   try {
     const paciente = await prisma.paciente.delete({
-      where: { id: parseInt(id) },
+      where: { numero_documento: parseInt(numero_documento) },
     });
-
-    // Si el paciente no existe, respondemos con 404
-    if (!paciente) {
-      return res.status(404).json({ error: "Paciente no encontrado." });
-    }
 
     res.status(204).send();
   } catch (error) {
@@ -132,7 +110,7 @@ const deletePaciente = async (req, res) => {
 module.exports = {
   createPaciente,
   getAllPacientes,
-  getPacienteById,
+  getPacienteByNumeroDocumento,
   updatePaciente,
   deletePaciente,
 };

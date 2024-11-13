@@ -9,13 +9,13 @@ router.post('/', pacienteController.createPaciente);
 // Obtener todos los pacientes
 router.get('/', pacienteController.getAllPacientes);
 
-// Obtener un paciente por ID
-router.get('/:id', pacienteController.getPacienteById);
+// Obtener un paciente por numero_documento
+router.get('/:numero_documento', pacienteController.getPacienteByNumeroDocumento);
 
 // Actualizar un paciente
-router.put('/:id', pacienteController.updatePaciente);
+router.put('/:numero_documento', pacienteController.updatePaciente);
 
 // Eliminar un paciente
-router.delete('/:id', pacienteController.deletePaciente);
+router.delete('/:numero_documento', pacienteController.deletePaciente);
 
 module.exports = router;
