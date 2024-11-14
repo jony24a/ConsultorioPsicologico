@@ -1,9 +1,8 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import Bienvenida from './views/Bienvenida.vue'
-import AgregarPaciente from './components/AgregarPaciente.vue'
-import AgregarPracticante from './components/AgregarPracticante.vue'
-import AgregarProfesional from './components/AgregarProfesional.vue'
-import Calendario from './components/Calendario.vue'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import Bienvenida from './views/Bienvenida.vue';
+import AgregarPaciente from './components/AgregarPaciente.vue';
+import AgregarPersonal from './components/AgregarPersonal.vue';
+import Calendario from './components/Calendario.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -17,25 +16,20 @@ const routes: Array<RouteRecordRaw> = [
     component: AgregarPaciente
   },
   {
-    path: '/agregar-practicante',
-    name: 'AgregarPracticante',
-    component: AgregarPracticante
-  },
-  {
-    path: '/agregar-profesional',
-    name: 'AgregarProfesional',
-    component: AgregarProfesional
+    path: '/agregar-personal',
+    name: 'AgregarPersonal',
+    component: AgregarPersonal
   },
   {
     path: '/calendario',
     name: 'Calendario',
     component: Calendario
   }
-]
+];
 
 const router = createRouter({
   history: createWebHistory(),
   routes
-})
+});
 
-export default router
+export default router;

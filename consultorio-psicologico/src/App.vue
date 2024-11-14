@@ -4,13 +4,8 @@
       <nav class="container mx-auto p-4 flex justify-between items-center">
         <h1 class="text-2xl font-bold text-gray-900"><router-link to="/">Consultorio Psicológico</router-link></h1>
         <div>
-          <router-link to="/agregar-paciente" class="text-gray-600 hover:text-green-500 mx-2">Agregar
-            Paciente</router-link> |
-          <router-link to="/agregar-practicante" class="text-gray-600 hover:text-green-500 mx-2">Agregar
-            Practicante</router-link> |
-          <router-link to="/agregar-profesional" class="text-gray-600 hover:text-green-500 mx-2">Agregar
-            Profesional</router-link> |
-          <router-link to="/calendario" class="text-gray-600 hover:text-green-500 mx-2">Calendario</router-link>
+          <router-link to="/agregar-paciente" class="text-gray-600 hover:text-green-500 mx-2">Agregar Paciente</router-link> |
+          <router-link to="/agregar-personal" class="text-gray-600 hover:text-blue-500 mx-2">Agregar Personal</router-link> 
         </div>
       </nav>
     </header>
@@ -27,8 +22,6 @@ export default defineComponent({
   name: 'App',
 });
 </script>
-<<<<<<< HEAD
-=======
 
 <style>
 #app {
@@ -53,4 +46,3 @@ nav a.router-link-exact-active {
   color: #42b983;
 }
 </style>
->>>>>>> 365e395c2f79193004d3bb41c9a6d1b80a512d65
