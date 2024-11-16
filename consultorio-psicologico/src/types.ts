@@ -2,13 +2,13 @@ export interface Paciente {
   numero_documento: number;
   tipo_documento: string;
   nombre: string;
+  telefono: string;
   genero: string;
   estrato: string;
   barrio: string;
   localidad: string;
   escolaridad: string;
-  numero_documento_practicante?: number;
-  numero_documento_profesional?: number;
+  disponibilidad: string;
 }
 
 export interface Cita {

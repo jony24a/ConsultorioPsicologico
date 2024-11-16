@@ -5,7 +5,8 @@
         <h1 class="text-2xl font-bold text-gray-900"><router-link to="/">Consultorio Psicológico</router-link></h1>
         <div>
           <router-link to="/agregar-paciente" class="text-gray-600 hover:text-green-500 mx-2">Agregar Paciente</router-link> |
-          <router-link to="/agregar-personal" class="text-gray-600 hover:text-blue-500 mx-2">Agregar Personal</router-link> 
+          <router-link to="/agregar-personal" class="text-gray-600 hover:text-blue-500 mx-2">Agregar Personal</router-link> |
+          <router-link to="/calendario" class="text-gray-600 hover:text-blue-500 mx-2">calendario</router-link>
         </div>
       </nav>
     </header>

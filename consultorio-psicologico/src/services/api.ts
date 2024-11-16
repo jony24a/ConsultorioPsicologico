@@ -1,26 +1,26 @@
 import axios from 'axios';
-import { Paciente, Practicante, Profesional, Cita } from '../types';
+import { Paciente, Personal, Cita } from '../types';
 
-const API_URL = 'http://localhost:3000/api'; // Adjust this to your API URL
+const API_URL = 'http://localhost:3000/api';
 
 const api = axios.create({
   baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
   },
 });
 
+// Endpoints para Pacientes
+export const createPaciente = (paciente: Paciente) => api.post('/pacientes', paciente);
 export const getPacientes = () => api.get<Paciente[]>('/pacientes');
-export const createPaciente = (paciente: Paciente) => api.post<Paciente>('/pacientes', paciente);
 
-export const getPracticantes = () => api.get<Practicante[]>('/practicantes');
-export const createPracticante = (practicante: Practicante) => api.post<Practicante>('/practicantes', practicante);
+// Endpoints para Personal
+export const getPersonal = () => api.get<Personal[]>('/personal');
+export const createPersonal = (personal: Personal) => api.post<Personal>('/personal', personal);
 
-export const getProfesionales = () => api.get<Profesional[]>('/profesionales');
-export const createProfesional = (profesional: Profesional) => api.post<Profesional>('/profesionales', profesional);
-
+// Endpoints para Citas
 export const getCitas = () => api.get<Cita[]>('/citas');
 export const createCita = (cita: Cita) => api.post<Cita>('/citas', cita);
 
-// No me la toque
 export default api;
