@@ -20,9 +20,6 @@ export interface Cita {
   numero_documento_practicante?: number;
 }
 
-// Adaptación del esquema de Prisma para el personal
-// types.ts
-// types.ts
 export interface Personal {
   numero_documento: number;
   tipo_documento: string;
@@ -34,5 +31,14 @@ export interface Personal {
   es_profesional: boolean;
   turno: string;  // Este campo ahora es obligatorio siempre
 }
+
+export interface HistorialClinico {
+  motivo_consulta: string;
+  remitido: string;
+  diagnostico: string;
+  tratamiento: string;
+  estado_proceso: string;
+}
+
 
 

@@ -6,7 +6,8 @@
         <div>
           <router-link to="/agregar-paciente" class="text-gray-600 hover:text-green-500 mx-2">Agregar Paciente</router-link> |
           <router-link to="/agregar-personal" class="text-gray-600 hover:text-blue-500 mx-2">Agregar Personal</router-link> |
-          <router-link to="/calendario" class="text-gray-600 hover:text-blue-500 mx-2">calendario</router-link>
+          <router-link to="/calendario" class="text-gray-600 hover:text-blue-500 mx-2">Calendario</router-link> |
+          <router-link to="/historial-clinico" class="text-gray-600 hover:text-blue-500 mx-2">Historial Clínico</router-link> 
         </div>
       </nav>
     </header>
@@ -15,6 +16,7 @@
     </main>
   </div>
 </template>
+
 
 <script lang="ts">
 import { defineComponent } from 'vue';
