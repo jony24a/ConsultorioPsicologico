@@ -3,45 +3,51 @@ import Bienvenida from './views/Bienvenida.vue';
 import AgregarPaciente from './components/AgregarPaciente.vue';
 import AgregarPersonal from './components/AgregarPersonal.vue';
 import Calendario from './components/Calendario.vue';
-import HistorialClinico from './components/HistorialClinico.vue'; // Importa el componente de Historial Clínico
-import ListadoPacientes from './components/ListadoPacientes.vue'; // Nueva importación para listado de pacientes
+import HistorialClinico from './components/HistorialClinico.vue';
+import VerHistorialClinico from './components/VerHistorialClinico.vue'; // Importa el componente de Ver Historial Clínico
+import ListadoPacientes from './components/ListadoPacientes.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Bienvenida',
-    component: Bienvenida
+    component: Bienvenida,
   },
   {
     path: '/agregar-paciente',
     name: 'AgregarPaciente',
-    component: AgregarPaciente
+    component: AgregarPaciente,
   },
   {
     path: '/agregar-personal',
     name: 'AgregarPersonal',
-    component: AgregarPersonal
+    component: AgregarPersonal,
   },
   {
     path: '/calendario',
     name: 'Calendario',
-    component: Calendario
+    component: Calendario,
   },
   {
-    path: '/historial-clinico',  // Nueva ruta para Historial Clínico
+    path: '/historial-clinico',
     name: 'HistorialClinico',
-    component: HistorialClinico  // Asocia el componente HistorialClinico
+    component: HistorialClinico,
   },
   {
-    path: '/listado-pacientes',  // Nueva ruta para Listado de Pacientes
+    path: '/ver-historiales', // Nueva ruta para Ver Historiales Clínicos
+    name: 'VerHistorialClinico',
+    component: VerHistorialClinico,
+  },
+  {
+    path: '/listado-pacientes',
     name: 'ListadoPacientes',
-    component: ListadoPacientes  // Asocia el componente ListadoPacientes
-  }
+    component: ListadoPacientes,
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
 });
 
 export default router;

@@ -10,7 +10,8 @@
           <router-link to="/agregar-personal" class="text-gray-600 hover:text-blue-500 mx-2">Agregar Personal</router-link> |
           <router-link to="/historial-clinico" class="text-gray-600 hover:text-blue-500 mx-2">Historial Clínico</router-link> |
           <router-link to="/calendario" class="text-gray-600 hover:text-blue-500 mx-2">Calendario</router-link> |
-          <router-link to="/listado-pacientes" class="text-gray-600 hover:text-blue-500 mx-2">Listado</router-link>
+          <router-link to="/listado-pacientes" class="text-gray-600 hover:text-blue-500 mx-2">Listado</router-link> |
+          <router-link to="/ver-historiales" class="text-gray-600 hover:text-purple-500 mx-2">Ver Historiales Clínicos</router-link>
         </div>
       </nav>
     </header>
