@@ -18,30 +18,22 @@
         </div>
         <span class="text-lg">{{ formatMonthYear }}</span>
       </div>
-      <div class="flex gap-4 items-center">
-        <span class="text-sm text-gray-500">Citas cargadas: {{ citas.length }}</span>
-        <button @click="today" class="px-4 py-2 text-sm border rounded hover:bg-gray-50">Hoy</button>
-      </div>
+      <button @click="today" class="px-4 py-2 text-sm border rounded hover:bg-gray-50">Hoy</button>
     </div>
 
     <div class="flex-1 overflow-hidden border border-gray-200 rounded-lg">
-      <!-- Cabecera de días -->
       <div class="grid grid-cols-8 border-b">
         <div class="border-r p-2 bg-gray-50"></div>
         <div v-for="day in weekDays" :key="day.date" class="p-2 text-center border-r bg-gray-50">
           <div class="font-medium">{{ day.dayName }}</div>
-          <div class="text-2xl font-bold" :class="{ 'text-blue-600': day.isToday }">
-            {{ day.dayNumber }}
-          </div>
+          <div class="text-2xl font-bold" :class="{ 'text-blue-600': day.isToday }">{{ day.dayNumber }}</div>
         </div>
       </div>
 
-      <!-- Grid de horas y citas -->
       <div class="overflow-y-auto h-[calc(100%-4rem)]">
         <div class="grid grid-cols-8 relative">
-          <!-- Columna de horas -->
           <div class="border-r">
-            <div v-for="hour in hours" :key="hour" class="h-20 border-b p-2 text-sm text-gray-500">
+            <div v-for="hour in hours" :key="hour" class="h-auto min-h-[80px] p-2 border-b text-sm text-gray-500">
               {{ formatHour(hour) }}
             </div>
           </div>
@@ -49,19 +41,17 @@
           <!-- Columnas de días con citas -->
           <template v-for="(day, dayIndex) in weekDays" :key="day.date">
             <div class="border-r">
-              <!-- Celdas de horas -->
-              <div v-for="hour in hours" :key="`${day.date}-${hour}`" class="h-20 border-b relative">
-                <!-- Citas para esta hora y día -->
-                <template v-for="cita in getCitasForHourAndDay(hour, day.date)" :key="cita.id_cita">
-                  <div class="absolute inset-x-0 mx-1 rounded overflow-hidden" :style="getEventStyle(cita)">
-                    <div class="bg-blue-100 border-l-4 border-blue-600 p-2 h-full overflow-hidden shadow-sm">
+              <div v-for="hour in hours" :key="`${day.date}-${hour}`" class="h-auto min-h-[80px] border-b">
+                <div class="flex flex-col gap-1 p-1 overflow-y-auto max-h-full">
+                  <template v-for="cita in getCitasForHourAndDay(hour, day.date)" :key="cita.id_cita">
+                    <div class="bg-blue-100 border-l-4 border-blue-600 rounded p-2 shadow-sm">
                       <div class="font-medium text-sm">Hora: {{ cita.hora }}</div>
                       <div class="text-sm truncate">Paciente: {{ cita.pacienteId }}</div>
                       <div class="text-sm truncate">Profesional: {{ cita.personalId }}</div>
                       <div class="text-xs text-gray-600 truncate">Consultorio: {{ cita.consultorioId }}</div>
                     </div>
-                  </div>
-                </template>
+                  </template>
+                </div>
               </div>
             </div>
           </template>
@@ -70,6 +60,7 @@
     </div>
   </div>
 </template>
+
 
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted, watch } from 'vue';
