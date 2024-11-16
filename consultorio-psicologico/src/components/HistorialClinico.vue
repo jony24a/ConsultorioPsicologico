@@ -1,91 +1,96 @@
 <template>
-    <div class="container mx-auto p-4">
-      <h2 class="text-2xl font-semibold mb-4">Crear Historial Clínico</h2>
-      
-      <form @submit.prevent="crearHistorialClinicoHandler">
+    <div class="bg-gray-100 min-h-screen flex items-center justify-center">
+      <div class="container mx-auto p-4">
+        <div class="bg-white rounded-lg shadow-lg p-6 md:p-10 max-w-3xl mx-auto">
+          <h2 class="text-3x1 font-bold text-center uppercase mb-8">
+            Crear Historial Clínico
+          </h2>
+          <form @submit.prevent="crearHistorialClinicoHandler">
         <!-- Campos del formulario -->
-        <div class="mb-4">
-          <label for="motivo_consulta" class="block text-sm font-medium text-gray-700">Motivo de Consulta</label>
-          <input
-            v-model="motivo_consulta"
-            id="motivo_consulta"
-            type="text"
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-            required
-          />
-        </div>
+          <div class="mb-6">
+            <label for="motivo_consulta" class="block text-sm font-medium text-gray-900">Motivo de Consulta</label>
+            <input
+              v-model="motivo_consulta"
+              id="motivo_consulta"
+              type="text"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
+              required
+            />
+          </div>
   
-        <div class="mb-4">
-          <label for="remitido" class="block text-sm font-medium text-gray-700">Remitido</label>
-          <input
-            v-model="remitido"
-            id="remitido"
-            type="text"
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-            required
-          />
-        </div>
+          <div class="mb-4">
+            <label for="remitido" class="block text-sm font-medium text-gray-700">Remitido</label>
+            <input
+              v-model="remitido"
+              id="remitido"
+              type="text"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
+              required
+            />
+          </div>
   
-        <div class="mb-4">
-          <label for="diagnostico" class="block text-sm font-medium text-gray-700">Diagnóstico</label>
-          <textarea
-            v-model="diagnostico"
-            id="diagnostico"
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-            required
-          ></textarea>
-        </div>
+          <div class="mb-4">
+            <label for="diagnostico" class="block text-sm font-medium text-gray-700">Diagnóstico</label>
+            <textarea
+              v-model="diagnostico"
+              id="diagnostico"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
+              required
+            ></textarea>
+          </div>
   
-        <div class="mb-4">
-          <label for="tratamiento" class="block text-sm font-medium text-gray-700">Tratamiento</label>
-          <textarea
-            v-model="tratamiento"
-            id="tratamiento"
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-            required
-          ></textarea>
-        </div>
+          <div class="mb-4">
+            <label for="tratamiento" class="block text-sm font-medium text-gray-700">Tratamiento</label>
+            <textarea
+              v-model="tratamiento"
+              id="tratamiento"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
+              required
+            ></textarea>
+          </div>
   
-        <div class="mb-4">
-          <label for="estado_proceso" class="block text-sm font-medium text-gray-700">Estado de Proceso</label>
-          <input
-            v-model="estado_proceso"
-            id="estado_proceso"
-            type="text"
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-            required
-          />
-        </div>
+          <div class="mb-4">
+            <label for="estado_proceso" class="block text-sm font-medium text-gray-700">Estado de Proceso</label>
+            <input
+              v-model="estado_proceso"
+              id="estado_proceso"
+              type="text"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
+              required
+            />
+          </div>
   
-        <div class="mb-4">
-          <label for="pacienteId" class="block text-sm font-medium text-gray-700">Paciente (Número de Documento)</label>
-          <input
-            v-model="pacienteId"
-            id="pacienteId"
-            type="number"
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-            required
-          />
-        </div>
+          <div class="mb-4">
+            <label for="pacienteId" class="block text-sm font-medium text-gray-700">Paciente (Número de Documento)</label>
+            <input
+              v-model="pacienteId"
+              id="pacienteId"
+              type="number"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
+              required
+            />
+          </div>
   
-        <div class="mb-4">
-          <label for="citaId" class="block text-sm font-medium text-gray-700">Cita ID</label>
-          <input
-            v-model="citaId"
-            id="citaId"
-            type="number"
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-            required
-          />
-        </div>
+          <div class="mb-4">
+            <label for="citaId" class="block text-sm font-medium text-gray-700">Cita ID</label>
+            <input
+              v-model="citaId"
+              id="citaId"
+              type="number"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
+              required
+            />
+          </div>
   
-        <button
-          type="submit"
-          class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
-        >
-          Crear Historial Clínico
-        </button>
-      </form>
+          <button
+            type="submit"
+            class="w-full px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none focus:shadow-outline"
+          >
+            Crear Historial Clínico
+          </button>
+        </form>
+        </div>
+      </div>
     </div>
   </template>
   

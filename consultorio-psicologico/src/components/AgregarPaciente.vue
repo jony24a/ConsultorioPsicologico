@@ -99,7 +99,7 @@
           </div>
           <button
             type="submit"
-            class="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none focus:shadow-outline"
+            class="w-full px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none focus:shadow-outline"
           >
             Agregar Paciente
           </button>
