@@ -19,12 +19,8 @@
         <span class="text-lg">{{ formatMonthYear }}</span>
       </div>
       <div class="flex gap-4 items-center">
-        <span class="text-sm text-gray-500">
-          Citas cargadas: {{ citas.length }}
-        </span>
-        <button @click="today" class="px-4 py-2 text-sm border rounded hover:bg-gray-50">
-          Hoy
-        </button>
+        <span class="text-sm text-gray-500">Citas cargadas: {{ citas.length }}</span>
+        <button @click="today" class="px-4 py-2 text-sm border rounded hover:bg-gray-50">Hoy</button>
       </div>
     </div>
 
@@ -54,20 +50,15 @@
           <template v-for="(day, dayIndex) in weekDays" :key="day.date">
             <div class="border-r">
               <!-- Celdas de horas -->
-              <div v-for="hour in hours" :key="`${day.date}-${hour}`" 
-                   class="h-20 border-b relative">
+              <div v-for="hour in hours" :key="`${day.date}-${hour}`" class="h-20 border-b relative">
                 <!-- Citas para esta hora y día -->
                 <template v-for="cita in getCitasForHourAndDay(hour, day.date)" :key="cita.id_cita">
-                  <div class="absolute inset-x-0 mx-1 rounded overflow-hidden"
-                       :style="getEventStyle(cita)">
+                  <div class="absolute inset-x-0 mx-1 rounded overflow-hidden" :style="getEventStyle(cita)">
                     <div class="bg-blue-100 border-l-4 border-blue-600 p-2 h-full overflow-hidden shadow-sm">
-                      <div class="font-medium text-sm">{{ cita.hora }}</div>
-                      <div class="text-sm truncate">
-                        Paciente: {{ cita.numero_documento_paciente }}
-                      </div>
-                      <div class="text-xs text-gray-600 truncate">
-                        {{ cita.lugar }}
-                      </div>
+                      <div class="font-medium text-sm">Hora: {{ cita.hora }}</div>
+                      <div class="text-sm truncate">Paciente: {{ cita.pacienteId }}</div>
+                      <div class="text-sm truncate">Profesional: {{ cita.personalId }}</div>
+                      <div class="text-xs text-gray-600 truncate">Consultorio: {{ cita.consultorioId }}</div>
                     </div>
                   </div>
                 </template>
@@ -94,11 +85,9 @@ export default defineComponent({
     const loading = ref(false);
     const error = ref<string | null>(null);
 
-    // Obtener los días de la semana actual
     const weekDays = computed(() => {
       const days = [];
       const start = getStartOfWeek(currentDate.value);
-      
       for (let i = 0; i < 7; i++) {
         const date = new Date(start);
         date.setDate(date.getDate() + i);
@@ -107,7 +96,7 @@ export default defineComponent({
           date: formattedDate,
           dayName: date.toLocaleDateString('es', { weekday: 'short' }),
           dayNumber: date.getDate(),
-          isToday: isSameDay(date, new Date())
+          isToday: isSameDay(date, new Date()),
         });
       }
       return days;
@@ -117,12 +106,10 @@ export default defineComponent({
       return currentDate.value.toLocaleDateString('es', { month: 'long', year: 'numeric' });
     });
 
-    // Formatear fecha en YYYY-MM-DD
     const formatDate = (date: Date): string => {
       return date.toISOString().split('T')[0];
     };
 
-    // Funciones de navegación
     const nextWeek = () => {
       const newDate = new Date(currentDate.value);
       newDate.setDate(newDate.getDate() + 7);
@@ -139,7 +126,6 @@ export default defineComponent({
       currentDate.value = new Date();
     };
 
-    // Funciones auxiliares
     const getStartOfWeek = (date: Date) => {
       const d = new Date(date);
       const day = d.getDay();
@@ -155,7 +141,6 @@ export default defineComponent({
       return `${hour.toString().padStart(2, '0')}:00`;
     };
 
-    // Nueva función para obtener citas por hora y día
     const getCitasForHourAndDay = (hour: number, date: string) => {
       return citas.value.filter(cita => {
         const citaHour = parseInt(cita.hora.split(':')[0]);
@@ -165,24 +150,24 @@ export default defineComponent({
 
     const getEventStyle = (cita: Cita) => {
       const [hours, minutes] = cita.hora.split(':').map(Number);
-      // Calculamos la posición vertical dentro de la celda de hora
       const topPercentage = (minutes / 60) * 100;
-      // Asumimos que cada cita dura 50 minutos por defecto
-      const heightPercentage = 83; // (50/60) * 100
-
+      const heightPercentage = 83;
       return {
         top: `${topPercentage}%`,
         height: `${heightPercentage}%`,
       };
     };
 
-    // Cargar citas
     const fetchCitas = async () => {
       loading.value = true;
       error.value = null;
       try {
         const response = await getCitas();
-        citas.value = response.data;
+        citas.value = response.data.map(cita => ({
+          ...cita,
+          fecha: cita.fecha.split('T')[0],
+          hora: new Date(cita.hora).toISOString().split('T')[1].slice(0, 5),
+        }));
         console.log('Citas cargadas:', citas.value);
       } catch (err) {
         console.error('Error al obtener citas:', err);
@@ -192,12 +177,10 @@ export default defineComponent({
       }
     };
 
-    // Cargar citas al montar el componente
     onMounted(() => {
       fetchCitas();
     });
 
-    // Recargar citas cuando cambie la semana
     watch(weekDays, () => {
       fetchCitas();
     });
