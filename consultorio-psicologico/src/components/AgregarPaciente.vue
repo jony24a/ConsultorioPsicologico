@@ -152,6 +152,12 @@
         >
           Ver Listado de Pacientes
         </button>
+        <button
+          @click="goToBienvenida"
+          class="mt-4 w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:shadow-outline"
+        >
+          Menu Principal
+        </button>
       </div>
     </div>
   </div>
@@ -227,7 +233,12 @@ export default defineComponent({
       router.push({ name: 'ListadoPacientes' });
     };
 
-    return { paciente, tiposGenero, submitForm, goToListado };
+    const goToBienvenida = () => {
+      router.push({ name: 'Bienvenida'})
+    }
+
+
+    return { paciente, tiposGenero, submitForm, goToListado, goToBienvenida,  };
   },
 });
 </script>

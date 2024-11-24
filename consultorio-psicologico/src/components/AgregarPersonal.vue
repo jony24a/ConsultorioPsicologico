@@ -107,11 +107,19 @@
           <button type="submit" class="w-full px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none focus:shadow-outline">Agregar Personal</button>
         </form>
         <!-- Botón para ListadoPacientes -->
-        <router-link to="/listado-pacientes" class="block mt-4 text-center">
-          <button class="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:shadow-outline">
-            Ver Listado de Pacientes
-          </button>
-        </router-link>
+        <button
+          @click="goToListado"
+          class="mt-4 w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:shadow-outline"
+        >
+          Ver Listado del Personal
+      </button>
+        <!--Boton de Bienvenida-->
+        <button
+          @click="goToBienvenida"
+          class="mt-4 w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:shadow-outline"
+        >
+          Menu Principal
+        </button>
       </div>
     </div>
   </div>
@@ -119,6 +127,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { agregarPersonal } from '../services/personalService';
 
 export default defineComponent({
@@ -142,6 +151,8 @@ export default defineComponent({
       'Bigénero', 'Pangénero', 'Transgénero', 'Transexual', 'Andrógino',
       'Intergénero', 'Género Neutro', 'Poligénero', 'Otro'
     ];
+
+    const router = useRouter();
 
     const submitForm = async () => {
       try {
@@ -169,7 +180,15 @@ export default defineComponent({
       }
     };
 
-    return { personal, tiposGenero, submitForm };
+    const goToListado = () => {
+      router.push({ name: 'ListadoPacientes' });
+    };
+
+    const goToBienvenida = () => {
+      router.push({ name: 'Bienvenida'})
+    }
+
+    return { personal, tiposGenero, submitForm, goToListado ,goToBienvenida,  };
   },
 });
 </script>
