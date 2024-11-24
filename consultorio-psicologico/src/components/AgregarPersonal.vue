@@ -48,19 +48,20 @@
               <option value="Otro">Otro</option>
             </select>
           </div>
-          <!-- Género Específico -->
-          <div v-if="personal.genero === 'Otro'" class="mb-6">
-            <label for="genero_especifico" class="block mb-2 text-sm font-medium text-gray-900">Especifique el género:</label>
+
+          <!-- Genero Especifico -->
+           <div v-if="personal.genero === 'Otro'" class="mb-6">
+            <label for="genero_especifico" class="block mb-2 text-sm font-medium text-gray-900">Especifique el genero:</label>
             <select
               v-model="personal.genero_especifico"
               id="genero_especifico"
               required
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
             >
-              <option value="" disabled>Seleccione una opción</option>
+              <option value="" disabled>Seleccione una opcion</option>
               <option v-for="tipo in tiposGenero" :key="tipo" :value="tipo">{{ tipo }}</option>
-            </select>
-          </div>
+          </select>
+           </div>
           <!-- Estrato -->
           <div class="mb-6">
             <label for="estrato" class="block mb-2 text-sm font-medium text-gray-900">Estrato:</label>
@@ -124,7 +125,6 @@ export default defineComponent({
       tipo_documento: '',
       nombre: '',
       genero: '',
-      genero_especifico: '',
       estrato: '',
       barrio: '',
       localidad: '',
@@ -132,7 +132,22 @@ export default defineComponent({
       turno: '',
     });
 
-    const tiposGenero = ['No Binario', 'Transgénero', 'Agénero', 'Otro'];
+    const tiposGenero = [
+      'No binario',
+      'Agenero',
+      'Demiboy',
+      'Demigirl',
+      'Genero Fluido',
+      'Bigenero',
+      'Pangenero',
+      'Transgenero',
+      'Transexual',
+      'Androgino',
+      'Intergenero',
+      'Genero Neutro',
+      'Poligenero',
+      'Otro'
+    ]
 
     const submitForm = async () => {
       try {
@@ -147,7 +162,6 @@ export default defineComponent({
           tipo_documento: '',
           nombre: '',
           genero: '',
-          genero_especifico: '',
           estrato: '',
           barrio: '',
           localidad: '',
