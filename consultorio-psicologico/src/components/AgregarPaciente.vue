@@ -145,6 +145,13 @@
             Agregar Paciente
           </button>
         </form>
+        <!-- Botón para ir al listado -->
+        <button
+          @click="goToListado"
+          class="mt-4 w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:shadow-outline"
+        >
+          Ver Listado de Pacientes
+        </button>
       </div>
     </div>
   </div>
@@ -152,6 +159,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { createPaciente } from '../services/api';
 
 export default defineComponent({
@@ -188,6 +196,8 @@ export default defineComponent({
       'Otro'
     ];
 
+    const router = useRouter();
+
     const submitForm = async () => {
       try {
         const response = await createPaciente(paciente.value);
@@ -208,16 +218,16 @@ export default defineComponent({
           };
         }
       } catch (error) {
-        console.error('Error al agregar paciente:', error);
-        alert('Error al agregar paciente');
+        console.error(error);
+        alert('Hubo un error al agregar el paciente');
       }
     };
 
-    return {
-      paciente,
-      submitForm,
-      tiposGenero,
+    const goToListado = () => {
+      router.push({ name: 'ListadoPacientes' });
     };
+
+    return { paciente, tiposGenero, submitForm, goToListado };
   },
 });
 </script>

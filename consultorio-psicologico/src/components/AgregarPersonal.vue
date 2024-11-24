@@ -48,20 +48,19 @@
               <option value="Otro">Otro</option>
             </select>
           </div>
-
-          <!-- Genero Especifico -->
-           <div v-if="personal.genero === 'Otro'" class="mb-6">
-            <label for="genero_especifico" class="block mb-2 text-sm font-medium text-gray-900">Especifique el genero:</label>
+          <!-- Género Específico -->
+          <div v-if="personal.genero === 'Otro'" class="mb-6">
+            <label for="genero_especifico" class="block mb-2 text-sm font-medium text-gray-900">Especifique el género:</label>
             <select
               v-model="personal.genero_especifico"
               id="genero_especifico"
               required
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
             >
-              <option value="" disabled>Seleccione una opcion</option>
+              <option value="" disabled>Seleccione una opción</option>
               <option v-for="tipo in tiposGenero" :key="tipo" :value="tipo">{{ tipo }}</option>
-          </select>
-           </div>
+            </select>
+          </div>
           <!-- Estrato -->
           <div class="mb-6">
             <label for="estrato" class="block mb-2 text-sm font-medium text-gray-900">Estrato:</label>
@@ -107,6 +106,12 @@
           <!-- Botón de Envío -->
           <button type="submit" class="w-full px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none focus:shadow-outline">Agregar Personal</button>
         </form>
+        <!-- Botón para ListadoPacientes -->
+        <router-link to="/listado-pacientes" class="block mt-4 text-center">
+          <button class="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:shadow-outline">
+            Ver Listado de Pacientes
+          </button>
+        </router-link>
       </div>
     </div>
   </div>
@@ -114,17 +119,17 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { Personal } from '../types';
 import { agregarPersonal } from '../services/personalService';
 
 export default defineComponent({
   name: 'AgregarPersonal',
   setup() {
-    const personal = ref<Personal>({
+    const personal = ref({
       numero_documento: 0,
       tipo_documento: '',
       nombre: '',
       genero: '',
+      genero_especifico: '',
       estrato: '',
       barrio: '',
       localidad: '',
@@ -133,21 +138,10 @@ export default defineComponent({
     });
 
     const tiposGenero = [
-      'No binario',
-      'Agenero',
-      'Demiboy',
-      'Demigirl',
-      'Genero Fluido',
-      'Bigenero',
-      'Pangenero',
-      'Transgenero',
-      'Transexual',
-      'Androgino',
-      'Intergenero',
-      'Genero Neutro',
-      'Poligenero',
-      'Otro'
-    ]
+      'No binario', 'Agénero', 'Demiboy', 'Demigirl', 'Género Fluido',
+      'Bigénero', 'Pangénero', 'Transgénero', 'Transexual', 'Andrógino',
+      'Intergénero', 'Género Neutro', 'Poligénero', 'Otro'
+    ];
 
     const submitForm = async () => {
       try {
@@ -162,6 +156,7 @@ export default defineComponent({
           tipo_documento: '',
           nombre: '',
           genero: '',
+          genero_especifico: '',
           estrato: '',
           barrio: '',
           localidad: '',
@@ -174,11 +169,7 @@ export default defineComponent({
       }
     };
 
-    return {
-      personal,
-      tiposGenero,
-      submitForm,
-    };
+    return { personal, tiposGenero, submitForm };
   },
 });
 </script>
