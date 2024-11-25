@@ -49,6 +49,10 @@
                       <div class="text-sm truncate">Paciente: {{ cita.pacienteId }}</div>
                       <div class="text-sm truncate">Profesional: {{ cita.personalId }}</div>
                       <div class="text-xs text-gray-600 truncate">Consultorio: {{ cita.consultorioId }}</div>
+                      <div class="flex gap-2 mt-2">
+                        <button @click="editCita(cita)" class="text-blue-500 hover:text-blue-700">Editar</button>
+                        <button @click="deleteCita(cita.id_cita)" class="text-red-500 hover:text-red-700">Eliminar</button>
+                      </div>
                     </div>
                   </template>
                 </div>
@@ -72,7 +76,7 @@
 import { defineComponent, ref, computed, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { Cita } from '../types';
-import { getCitas } from '../services/api';
+import { getCitas, deleteCita, updateCita } from '../services/api';
 
 export default defineComponent({
   name: 'CalendarioSemanal',
@@ -147,16 +151,6 @@ export default defineComponent({
       });
     };
 
-    const getEventStyle = (cita: Cita) => {
-      const [hours, minutes] = cita.hora.split(':').map(Number);
-      const topPercentage = (minutes / 60) * 100;
-      const heightPercentage = 83;
-      return {
-        top: `${topPercentage}%`,
-        height: `${heightPercentage}%`,
-      };
-    };
-
     const fetchCitas = async () => {
       loading.value = true;
       error.value = null;
@@ -167,7 +161,6 @@ export default defineComponent({
           fecha: cita.fecha.split('T')[0],
           hora: new Date(cita.hora).toISOString().split('T')[1].slice(0, 5),
         }));
-        console.log('Citas cargadas:', citas.value);
       } catch (err) {
         console.error('Error al obtener citas:', err);
         error.value = 'Error al cargar las citas';
@@ -184,23 +177,49 @@ export default defineComponent({
       fetchCitas();
     });
 
-    // Función para redirigir a la vista Bienvenida
     const goToBienvenida = () => {
       router.push({ name: 'Bienvenida' });
     };
 
+    // Editar cita
+    const editCita = (cita: Cita) => {
+      // Redirigir a la página de edición de la cita
+      router.push({ name: 'EditarCita', params: { citaId: cita.id_cita } });
+    };
+
+    // Eliminar cita
+    const deleteCita = async (id: number) => {
+      if (confirm('¿Estás seguro de que deseas eliminar esta cita?')) {
+        try {
+          await deleteCita(id);
+          citas.value = citas.value.filter(cita => cita.id_cita !== id);
+        } catch (err) {
+          console.error('Error al eliminar cita:', err);
+          error.value = 'No se pudo eliminar la cita';
+        }
+      }
+    };
+
     return {
+      citas,
+      currentDate,
       weekDays,
       hours,
+      loading,
+      error,
       formatMonthYear,
       nextWeek,
       prevWeek,
       today,
       formatHour,
       getCitasForHourAndDay,
-      getEventStyle,
       goToBienvenida,
+      editCita,
+      deleteCita,
     };
   },
 });
 </script>
+
+<style scoped>
+</style>

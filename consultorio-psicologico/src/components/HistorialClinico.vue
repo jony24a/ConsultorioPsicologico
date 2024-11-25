@@ -88,6 +88,14 @@
           >
             Crear Historial Clínico
           </button>
+
+          <button
+            @click="goToVerHistorial"
+            class="mt-4 w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:shadow-outline"
+          >
+            Ver Historial Clinico
+          </button>
+
           <button
             @click="goToBienvenida"
             class="mt-4 w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:shadow-outline"
@@ -147,6 +155,10 @@ export default defineComponent({
 
     const router = useRouter();
 
+    const goToVerHistorial = () => {
+      router.push({ name: 'VerHistorialClinico' })
+    }
+
     const goToBienvenida = () => {
       router.push({ name: 'Bienvenida' })
     }
@@ -160,6 +172,7 @@ export default defineComponent({
       pacienteId,
       citaId,
       crearHistorialClinicoHandler,
+      goToVerHistorial,
       goToBienvenida
     };
   },
