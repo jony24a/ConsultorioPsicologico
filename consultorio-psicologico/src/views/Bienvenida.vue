@@ -31,7 +31,7 @@
           Historial Clínico
         </button>
         <button
-          @click="goTo('ListadoPaciente')"
+          @click="goTo('ListadoPacientes')"
           class="w-full px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 focus:outline-none focus:shadow-outline text-xl"
         >
           Listado de Pacientes

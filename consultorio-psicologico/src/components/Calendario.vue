@@ -58,18 +58,26 @@
         </div>
       </div>
     </div>
+
+    <!-- Botón para volver a la vista Bienvenida -->
+    <div class="mt-4">
+      <button @click="goToBienvenida" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+        Menu Principal
+      </button>
+    </div>
   </div>
 </template>
 
-
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { Cita } from '../types';
 import { getCitas } from '../services/api';
 
 export default defineComponent({
   name: 'CalendarioSemanal',
   setup() {
+    const router = useRouter();
     const citas = ref<Cita[]>([]);
     const currentDate = ref(new Date());
     const hours = Array.from({ length: 24 }, (_, i) => i);
@@ -176,6 +184,11 @@ export default defineComponent({
       fetchCitas();
     });
 
+    // Función para redirigir a la vista Bienvenida
+    const goToBienvenida = () => {
+      router.push({ name: 'Bienvenida' });
+    };
+
     return {
       weekDays,
       hours,
@@ -186,9 +199,7 @@ export default defineComponent({
       formatHour,
       getCitasForHourAndDay,
       getEventStyle,
-      citas,
-      loading,
-      error,
+      goToBienvenida,
     };
   },
 });

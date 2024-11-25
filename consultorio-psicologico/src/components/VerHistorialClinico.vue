@@ -38,18 +38,28 @@
             </table>
           </div>
         </div>
+        <div class="mt-8 text-center">
+          <button
+            @click="goToBienvenida"
+            class="px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition duration-200"
+          >
+            Volver al Menu Principal
+          </button>  
+        </div>
       </div>
     </div>
   </template>
   
   <script lang="ts">
   import { defineComponent, ref, onMounted } from 'vue';
+  import { useRouter } from 'vue-router';
   import { obtenerHistorialesClinicos } from '../services/HistorialClinicoService';
   
   export default defineComponent({
     name: 'VerHistorialClinico',
     setup() {
       const historiales = ref([]);
+      const router = useRouter();
   
       // Función para obtener los historiales clínicos del backend
       const cargarHistorialesClinicos = async () => {
@@ -61,11 +71,16 @@
           alert('Hubo un error al cargar los historiales clínicos');
         }
       };
+
+      const goToBienvenida = () => {
+        router.push({ name: 'Bienvenida' });
+      };
   
       onMounted(cargarHistorialesClinicos);
   
       return {
         historiales,
+        goToBienvenida,
       };
     },
   });

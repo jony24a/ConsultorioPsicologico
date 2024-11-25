@@ -112,7 +112,7 @@
           class="mt-4 w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:shadow-outline"
         >
           Ver Listado del Personal
-      </button>
+        </button>
         <!--Boton de Bienvenida-->
         <button
           @click="goToBienvenida"
