@@ -1,10 +1,9 @@
-// routes/personaRoutes.js
 const express = require('express');
 const router = express.Router();
-const { getPersonaByCedula } = require('../controllers/personaController');
+const personaController = require('../controllers/personaController'); // Importa correctamente el controlador
 
 // Ruta para obtener una persona por número de documento
-router.get('/:numeroDocumento', getPersonaByCedula);
+router.get('/:numeroDocumento', personaController.getPersonaByCedula);
 
 // Ruta para actualizar los datos de una persona
 router.put('/:numeroDocumento', personaController.updatePersona);
