@@ -43,6 +43,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'ListadoPacientes',
     component: ListadoPacientes,
   },
+  {
+    path: '/ver-persona/:cedula',
+    name: 'VerPersona',
+    component: () => import('./components/VerPersona.vue'),
+  }
 ];
 
 const router = createRouter({

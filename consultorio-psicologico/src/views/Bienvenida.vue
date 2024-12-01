@@ -43,25 +43,54 @@
           Ver Historial Clínico
         </button>
       </div>
+
+      <!-- Formulario de búsqueda -->
+      <div class="mt-8">
+        <h2 class="text-2xl font-semibold mb-4">Buscar Persona por Cédula</h2>
+        <div class="flex items-center space-x-4">
+          <input
+            v-model="numeroDocumento"
+            type="text"
+            placeholder="Ingrese el número de cédula"
+            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200"
+          />
+          <button
+            @click="buscarPersona"
+            class="px-6 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 focus:outline-none focus:shadow-outline"
+          >
+            Buscar
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'Bienvenida',
   setup() {
     const router = useRouter();
+    const numeroDocumento = ref('');
 
     // Función para redirigir a diferentes vistas
     const goTo = (viewName: string) => {
       router.push({ name: viewName });
     };
 
-    return { goTo };
+    // Función para buscar persona
+    const buscarPersona = () => {
+      if (numeroDocumento.value.trim() === '') {
+        alert('Por favor, ingrese un número de cédula.');
+        return;
+      }
+      router.push({ name: 'VerPersona', params: { cedula: numeroDocumento.value } });
+    };
+
+    return { goTo, numeroDocumento, buscarPersona };
   },
 });
 </script>
