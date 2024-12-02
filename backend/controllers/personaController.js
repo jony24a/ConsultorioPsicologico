@@ -5,42 +5,31 @@ const prisma = new PrismaClient(); // Crea una instancia del cliente de Prisma
 const getPersonaByCedula = async (req, res) => {
   const { numeroDocumento } = req.params;
 
+  if (isNaN(numeroDocumento)) {
+    return res.status(400).json({ error: 'El número de documento debe ser un número válido.' });
+  }
+
   try {
-    // Buscar primero en Paciente
-    let persona = await prisma.paciente.findUnique({
-      where: {
-        numero_documento: parseInt(numeroDocumento),
-      },
-    });
+    const documento = parseInt(numeroDocumento);
 
-    // Si no la encuentra en Paciente, busca en Personal
-    if (!persona) {
-      persona = await prisma.personal.findUnique({
-        where: {
-          numero_documento: parseInt(numeroDocumento),
-        },
-      });
-    }
+    // Buscar en Paciente y Personal
+    const paciente = await prisma.paciente.findUnique({ where: { numero_documento: documento } });
+    const personal = !paciente && await prisma.personal.findUnique({ where: { numero_documento: documento } });
 
-    // Si la persona fue encontrada, se devuelve
+    const persona = paciente || personal;
+
     if (persona) {
-      // Verificar si es un paciente basándonos en la propiedad 'telefono'
-      const tipo = persona.telefono ? 'paciente' : 'personal';
+      const tipo = paciente ? 'paciente' : 'personal';
       return res.status(200).json({
         tipo,
         data: persona,
       });
     } else {
-      return res.status(404).json({
-        error: 'Persona no encontrada',
-      });
+      return res.status(404).json({ error: 'Persona no encontrada' });
     }
   } catch (error) {
     console.error('Error al obtener la persona:', error);
-    return res.status(500).json({
-      error: 'Error al obtener la persona',
-      details: error.message, // Incluye el mensaje de error para depuración
-    });
+    return res.status(500).json({ error: 'Error interno', details: error.message });
   }
 };
 
@@ -49,51 +38,70 @@ const updatePersona = async (req, res) => {
   const { numeroDocumento } = req.params;
   const updatedData = req.body;
 
+  if (isNaN(numeroDocumento)) {
+    return res.status(400).json({ error: 'El número de documento debe ser un número válido.' });
+  }
+
   try {
-    // Primero intentamos encontrar la persona en la tabla Paciente
-    let persona = await prisma.paciente.findUnique({
-      where: { numero_documento: parseInt(numeroDocumento) },
-    });
+    const documento = parseInt(numeroDocumento);
 
-    // Si no se encuentra en Paciente, buscar en Personal
-    if (!persona) {
-      persona = await prisma.personal.findUnique({
-        where: { numero_documento: parseInt(numeroDocumento) },
+    // Buscar en Paciente y Personal
+    const paciente = await prisma.paciente.findUnique({ where: { numero_documento: documento } });
+    const personal = !paciente && await prisma.personal.findUnique({ where: { numero_documento: documento } });
+
+    if (paciente) {
+      await prisma.paciente.update({
+        where: { numero_documento: documento },
+        data: updatedData,
       });
-    }
-
-    // Si la persona existe, la actualizamos
-    if (persona) {
-      // Verificar si es paciente o personal
-      if (persona.telefono) {
-        // Es un paciente
-        await prisma.paciente.update({
-          where: { numero_documento: parseInt(numeroDocumento) },
-          data: updatedData, // Actualiza los datos de paciente
-        });
-      } else {
-        // Es personal
-        await prisma.personal.update({
-          where: { numero_documento: parseInt(numeroDocumento) },
-          data: updatedData, // Actualiza los datos de personal
-        });
-      }
-
-      return res.status(200).json({
-        message: 'Persona actualizada con éxito',
+    } else if (personal) {
+      await prisma.personal.update({
+        where: { numero_documento: documento },
+        data: updatedData,
       });
     } else {
-      return res.status(404).json({
-        error: 'Persona no encontrada',
-      });
+      return res.status(404).json({ error: 'Persona no encontrada' });
     }
+
+    return res.status(200).json({ message: 'Persona actualizada con éxito' });
   } catch (error) {
     console.error('Error al actualizar la persona:', error);
-    return res.status(500).json({
-      error: 'Error al actualizar la persona',
-      details: error.message, // Incluye el mensaje de error para depuración
-    });
+    return res.status(500).json({ error: 'Error interno', details: error.message });
   }
 };
 
-module.exports = { getPersonaByCedula, updatePersona };
+// Controlador para obtener el historial clínico de una persona por número de documento
+const getHistorialClinicoByCedula = async (req, res) => {
+  const { numeroDocumento } = req.params;
+
+  if (isNaN(numeroDocumento)) {
+    return res.status(400).json({ error: 'El número de documento debe ser un número válido.' });
+  }
+
+  try {
+    const documento = parseInt(numeroDocumento);
+
+    const paciente = await prisma.paciente.findUnique({
+      where: { numero_documento: documento },
+      include: { HistorialClinico: true },
+    });
+
+    if (paciente && paciente.HistorialClinico.length > 0) {
+      return res.status(200).json({
+        message: 'Historial clínico obtenido con éxito',
+        historialClinico: paciente.HistorialClinico,
+      });
+    } else {
+      return res.status(404).json({ error: 'Paciente no encontrado o no tiene historial clínico' });
+    }
+  } catch (error) {
+    console.error('Error al obtener el historial clínico:', error);
+    return res.status(500).json({ error: 'Error interno', details: error.message });
+  }
+};
+
+module.exports = {
+  getPersonaByCedula,
+  updatePersona,
+  getHistorialClinicoByCedula,
+};
