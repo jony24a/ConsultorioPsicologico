@@ -32,9 +32,11 @@
               :key="index"
               class="p-4 bg-gray-100 rounded-md shadow-sm"
             >
-              <p><strong>Fecha:</strong> {{ registro.fecha }}</p>
-              <p><strong>Descripción:</strong> {{ registro.descripcion }}</p>
+              <p><strong>Motivo de Consulta:</strong> {{ registro.motivo_consulta }}</p>
+              <p><strong>Remitido:</strong> {{ registro.remitido }}</p>
               <p><strong>Diagnóstico:</strong> {{ registro.diagnostico }}</p>
+              <p><strong>Tratamiento:</strong> {{ registro.tratamiento }}</p>
+              <p><strong>Estado del proceso:</strong> {{ registro.estado_proceso }}</p>
             </li>
           </ul>
           <p v-else class="text-gray-500">Este paciente no tiene historial clínico registrado.</p>
@@ -64,7 +66,7 @@ export default defineComponent({
     const router = useRouter();
     const persona = ref<Record<string, any> | null>(null);
     const tipo = ref<string | null>(null);
-    const historialClinico = ref<any[]>([]);
+    const historialClinico = ref<any[]>([]); // Inicializa como un arreglo vacío
     const error = ref<string | null>(null);
 
     const formatKey = (key: string) =>
@@ -74,10 +76,19 @@ export default defineComponent({
       const cedula = route.params.cedula?.toString() ?? '';
       try {
         const response = await getPersonaByCedula(cedula);
-        persona.value = response.data.data;
-        tipo.value = response.data.tipo === 'personal' ? 'Personal' : 'Paciente';
-        if (tipo.value === 'Paciente') {
-          historialClinico.value = response.data.historialClinico || [];
+        // Asegúrate de que la respuesta contiene los datos esperados
+        if (response.data && response.data.data) {
+          persona.value = response.data.data;
+          tipo.value = response.data.tipo === 'personal' ? 'Personal' : 'Paciente';
+          
+          if (tipo.value === 'Paciente') {
+            // Si es paciente, aseguramos que historialClinico es un array
+            historialClinico.value = Array.isArray(response.data.historialClinico) 
+              ? response.data.historialClinico 
+              : []; // Asegura que sea un arreglo vacío si no hay historial
+          }
+        } else {
+          throw new Error('Datos no encontrados');
         }
       } catch (err) {
         console.error('Error al buscar persona:', err);

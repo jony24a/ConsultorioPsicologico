@@ -1,7 +1,7 @@
-const { PrismaClient } = require('@prisma/client'); // Importa el cliente de Prisma
-const prisma = new PrismaClient(); // Crea una instancia del cliente de Prisma
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
-// Controlador para obtener una persona por número de documento
+// Obtener persona por número de documento
 const getPersonaByCedula = async (req, res) => {
   const { numeroDocumento } = req.params;
 
@@ -12,17 +12,27 @@ const getPersonaByCedula = async (req, res) => {
   try {
     const documento = parseInt(numeroDocumento);
 
-    // Buscar en Paciente y Personal
     const paciente = await prisma.paciente.findUnique({ where: { numero_documento: documento } });
     const personal = !paciente && await prisma.personal.findUnique({ where: { numero_documento: documento } });
 
     const persona = paciente || personal;
 
     if (persona) {
+      // Si la persona es un paciente, también buscamos su historial clínico
       const tipo = paciente ? 'paciente' : 'personal';
+      
+      // Si es un paciente, buscamos su historial clínico
+      let historialClinico = [];
+      if (paciente) {
+        historialClinico = await prisma.historialClinico.findMany({
+          where: { pacienteId: paciente.id }
+        });
+      }
+
       return res.status(200).json({
         tipo,
         data: persona,
+        historialClinico: historialClinico.length > 0 ? historialClinico : [] // Si no tiene historial, no lo incluimos
       });
     } else {
       return res.status(404).json({ error: 'Persona no encontrada' });
@@ -33,7 +43,7 @@ const getPersonaByCedula = async (req, res) => {
   }
 };
 
-// Controlador para actualizar una persona por número de documento
+// Actualizar persona por número de documento
 const updatePersona = async (req, res) => {
   const { numeroDocumento } = req.params;
   const updatedData = req.body;
@@ -45,20 +55,13 @@ const updatePersona = async (req, res) => {
   try {
     const documento = parseInt(numeroDocumento);
 
-    // Buscar en Paciente y Personal
     const paciente = await prisma.paciente.findUnique({ where: { numero_documento: documento } });
     const personal = !paciente && await prisma.personal.findUnique({ where: { numero_documento: documento } });
 
     if (paciente) {
-      await prisma.paciente.update({
-        where: { numero_documento: documento },
-        data: updatedData,
-      });
+      await prisma.paciente.update({ where: { numero_documento: documento }, data: updatedData });
     } else if (personal) {
-      await prisma.personal.update({
-        where: { numero_documento: documento },
-        data: updatedData,
-      });
+      await prisma.personal.update({ where: { numero_documento: documento }, data: updatedData });
     } else {
       return res.status(404).json({ error: 'Persona no encontrada' });
     }
@@ -70,7 +73,7 @@ const updatePersona = async (req, res) => {
   }
 };
 
-// Controlador para obtener el historial clínico de una persona por número de documento
+// Obtener historial clínico por número de documento
 const getHistorialClinicoByCedula = async (req, res) => {
   const { numeroDocumento } = req.params;
 
@@ -86,13 +89,16 @@ const getHistorialClinicoByCedula = async (req, res) => {
       include: { HistorialClinico: true },
     });
 
-    if (paciente && paciente.HistorialClinico.length > 0) {
-      return res.status(200).json({
-        message: 'Historial clínico obtenido con éxito',
-        historialClinico: paciente.HistorialClinico,
-      });
+    if (paciente) {
+      const historial = paciente.HistorialClinico;
+
+      if (historial && historial.length > 0) {
+        return res.status(200).json({ historialClinico: historial });
+      } else {
+        return res.status(404).json({ error: 'El paciente no tiene historial clínico registrado.' });
+      }
     } else {
-      return res.status(404).json({ error: 'Paciente no encontrado o no tiene historial clínico' });
+      return res.status(404).json({ error: 'Paciente no encontrado.' });
     }
   } catch (error) {
     console.error('Error al obtener el historial clínico:', error);
