@@ -2,7 +2,7 @@
   <div class="bg-gray-100 min-h-screen flex items-center justify-center py-12">
     <div class="w-full max-w-lg bg-white p-8 rounded-lg shadow-lg">
       <h1 class="text-2xl font-bold mb-6">Información de la Persona</h1>
-      
+
       <!-- Mostrar la información de la persona -->
       <div v-if="persona">
         <p><strong>Tipo:</strong> {{ tipo }}</p>
@@ -22,7 +22,7 @@
             Actualizar Persona
           </button>
         </form>
-        
+
         <!-- Historial clínico -->
         <div v-if="tipo === 'Paciente'" class="mt-6">
           <h2 class="text-xl font-bold mb-4">Historial Clínico</h2>
@@ -42,7 +42,7 @@
           <p v-else class="text-gray-500">Este paciente no tiene historial clínico registrado.</p>
         </div>
       </div>
-      
+
       <!-- Mensajes de error o carga -->
       <div v-else-if="error" class="text-red-500 font-semibold">
         {{ error }}
@@ -76,16 +76,12 @@ export default defineComponent({
       const cedula = route.params.cedula?.toString() ?? '';
       try {
         const response = await getPersonaByCedula(cedula);
-        // Asegúrate de que la respuesta contiene los datos esperados
         if (response.data && response.data.data) {
           persona.value = response.data.data;
           tipo.value = response.data.tipo === 'personal' ? 'Personal' : 'Paciente';
-          
+
           if (tipo.value === 'Paciente') {
-            // Si es paciente, aseguramos que historialClinico es un array
-            historialClinico.value = Array.isArray(response.data.historialClinico) 
-              ? response.data.historialClinico 
-              : []; // Asegura que sea un arreglo vacío si no hay historial
+            historialClinico.value = response.data.historialClinico || [];
           }
         } else {
           throw new Error('Datos no encontrados');

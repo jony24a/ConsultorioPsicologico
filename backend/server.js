@@ -20,7 +20,7 @@ app.use(express.json());
 // Middleware para registrar las solicitudes en desarrollo
 if (process.env.NODE_ENV === 'development') {
   app.use((req, res, next) => {
-    console.log(`[${req.method}] ${req.url}`);
+    console.log(`[${new Date().toISOString()}] [${req.method}] ${req.url}`);
     next();
   });
 }
@@ -42,7 +42,7 @@ app.use((req, res) => {
 
 // Middleware de manejo de errores global
 app.use((err, req, res, next) => {
-  console.error('Error inesperado:', err);
+  console.error(`[${new Date().toISOString()}] Error inesperado:`, err);
   res.status(err.status || 500).json({
     error: 'Error interno del servidor',
     details: err.message || 'Algo salió mal en el servidor.',
@@ -52,9 +52,7 @@ app.use((err, req, res, next) => {
 // Configurar el puerto
 const PORT = parseInt(process.env.PORT, 10) || 3000;
 if (isNaN(PORT)) {
-  console.error(
-    'El valor del puerto no es válido. Configura correctamente la variable PORT en tu archivo .env.'
-  );
+  console.error('El valor del puerto no es válido. Configura correctamente la variable PORT en tu archivo .env.');
   process.exit(1);
 }
 
@@ -67,11 +65,11 @@ app.listen(PORT, () => {
 
 // Manejo de excepciones no capturadas
 process.on('uncaughtException', (error) => {
-  console.error('Excepción no capturada:', error);
+  console.error(`[${new Date().toISOString()}] Excepción no capturada:`, error);
   process.exit(1);
 });
 
 // Manejo de promesas rechazadas
 process.on('unhandledRejection', (reason) => {
-  console.error('Promesa rechazada sin manejar:', reason);
+  console.error(`[${new Date().toISOString()}] Promesa rechazada sin manejar:`, reason);
 });

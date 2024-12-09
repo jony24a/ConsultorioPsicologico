@@ -15,31 +15,27 @@ const getPersonaByCedula = async (req, res) => {
     const paciente = await prisma.paciente.findUnique({ where: { numero_documento: documento } });
     const personal = !paciente && await prisma.personal.findUnique({ where: { numero_documento: documento } });
 
-    const persona = paciente || personal;
-
-    if (persona) {
-      // Si la persona es un paciente, también buscamos su historial clínico
+    if (paciente || personal) {
       const tipo = paciente ? 'paciente' : 'personal';
-      
-      // Si es un paciente, buscamos su historial clínico
       let historialClinico = [];
+
       if (paciente) {
         historialClinico = await prisma.historialClinico.findMany({
-          where: { pacienteId: paciente.id }
+          where: { pacienteId: paciente.numero_documento },
         });
       }
 
       return res.status(200).json({
         tipo,
-        data: persona,
-        historialClinico: historialClinico.length > 0 ? historialClinico : [] // Si no tiene historial, no lo incluimos
+        data: paciente || personal,
+        historialClinico: historialClinico.length > 0 ? historialClinico : [],
       });
     } else {
       return res.status(404).json({ error: 'Persona no encontrada' });
     }
   } catch (error) {
     console.error('Error al obtener la persona:', error);
-    return res.status(500).json({ error: 'Error interno', details: error.message });
+    return res.status(500).json({ error: 'Error interno del servidor', details: error.message });
   }
 };
 
@@ -69,7 +65,7 @@ const updatePersona = async (req, res) => {
     return res.status(200).json({ message: 'Persona actualizada con éxito' });
   } catch (error) {
     console.error('Error al actualizar la persona:', error);
-    return res.status(500).json({ error: 'Error interno', details: error.message });
+    return res.status(500).json({ error: 'Error interno del servidor', details: error.message });
   }
 };
 
@@ -102,7 +98,7 @@ const getHistorialClinicoByCedula = async (req, res) => {
     }
   } catch (error) {
     console.error('Error al obtener el historial clínico:', error);
-    return res.status(500).json({ error: 'Error interno', details: error.message });
+    return res.status(500).json({ error: 'Error interno del servidor', details: error.message });
   }
 };
 
