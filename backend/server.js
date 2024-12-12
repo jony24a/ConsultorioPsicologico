@@ -7,7 +7,7 @@ const cors = require('cors');
 // Importar las rutas
 const personalRoutes = require('./routes/personalRoutes');
 const pacienteRoutes = require('./routes/pacienteRoutes');
-const citaRoutes = require('./routes/citaRoutes');
+const citaRoutes = require('./routes/citaRoutes');  // Rutas de citas
 const historialClinicoRoutes = require('./routes/historialClinicoRoutes');
 const personaRoutes = require('./routes/personaRoutes'); // Nueva ruta para consultar por cédula
 
@@ -28,7 +28,7 @@ if (process.env.NODE_ENV === 'development') {
 // Usar las rutas con el prefijo adecuado
 app.use('/api/personal', personalRoutes);
 app.use('/api/pacientes', pacienteRoutes);
-app.use('/api/citas', citaRoutes);
+app.use('/api/citas', citaRoutes);  // Agregar las rutas de citas
 app.use('/api/historial-clinico', historialClinicoRoutes);
 app.use('/api/persona', personaRoutes);
 

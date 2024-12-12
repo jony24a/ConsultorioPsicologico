@@ -1,12 +1,17 @@
-// routes/citaRoutes.js
 const express = require('express');
-const { crearCita, obtenerCitas } = require('../controllers/citaController');
 const router = express.Router();
+const citaController = require('../controllers/citaController');
 
-// Ruta para crear una nueva cita (POST)
-router.post('/', crearCita);
+// Crear una nueva cita
+router.post('/', citaController.crearCita);
 
-// Ruta para obtener todas las citas (GET)
-router.get('/', obtenerCitas);
+// Obtener todas las citas
+router.get('/', citaController.obtenerCitas);
+
+// Editar una cita existente
+router.put('/:id_cita', citaController.editarCita);
+
+// Eliminar una cita
+router.delete('/:id_cita', citaController.eliminarCita);
 
 module.exports = router;
