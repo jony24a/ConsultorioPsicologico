@@ -1,31 +1,42 @@
 <template>
   <div class="bg-gray-100 min-h-screen flex items-center justify-center py-12">
-    <div class="w-full max-w-lg bg-white p-8 rounded-lg shadow-lg">
-      <h1 class="text-2xl font-bold mb-6">Información de la Persona</h1>
+    <div class="w-full max-w-6xl bg-white p-8 rounded-lg shadow-lg flex">
+      <!-- Información de la persona -->
+      <div class="w-1/2 pr-4 border-r border-gray-300">
+        <h1 class="text-2xl font-bold mb-6">Información de la Persona</h1>
 
-      <!-- Mostrar la información de la persona -->
-      <div v-if="persona">
-        <p><strong>Tipo:</strong> {{ tipo }}</p>
-        <form @submit.prevent="handleUpdatePersona">
-          <div v-for="(value, key) in persona" :key="key" class="mb-4">
-            <label :for="key" class="block font-semibold">{{ formatKey(key) }}</label>
-            <input
-              v-if="key !== 'numero_documento'"
-              :id="key"
-              v-model="persona[key]"
-              type="text"
-              class="w-full mt-1 p-2 border border-gray-300 rounded-md"
-            />
-            <p v-else><strong>{{ formatKey(key) }}:</strong> {{ value }}</p>
-          </div>
-          <button type="submit" class="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-            Actualizar Persona
-          </button>
-        </form>
+        <div v-if="persona">
+          <p><strong>Tipo:</strong> {{ tipo }}</p>
+          <form @submit.prevent="handleUpdatePersona">
+            <div v-for="(value, key) in persona" :key="key" class="mb-4">
+              <label :for="key" class="block font-semibold">{{ formatKey(key) }}</label>
+              <input
+                v-if="key !== 'numero_documento'"
+                :id="key"
+                v-model="persona[key]"
+                type="text"
+                class="w-full mt-1 p-2 border border-gray-300 rounded-md"
+              />
+              <p v-else><strong>{{ formatKey(key) }}:</strong> {{ value }}</p>
+            </div>
+            <button type="submit" class="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+              Actualizar Persona
+            </button>
+          </form>
+        </div>
 
-        <!-- Historial clínico -->
-        <div v-if="tipo === 'Paciente'" class="mt-6">
-          <h2 class="text-xl font-bold mb-4">Historial Clínico</h2>
+        <div v-else-if="error" class="text-red-500 font-semibold">
+          {{ error }}
+        </div>
+        <div v-else>
+          <p class="text-gray-500">Cargando información...</p>
+        </div>
+      </div>
+
+      <!-- Historial clínico -->
+      <div class="w-1/2 pl-4">
+        <h2 class="text-2xl font-bold mb-6">Historial Clínico</h2>
+        <div v-if="tipo === 'Paciente'">
           <ul v-if="historialClinico.length > 0" class="space-y-4">
             <li
               v-for="(registro, index) in historialClinico"
@@ -41,14 +52,6 @@
           </ul>
           <p v-else class="text-gray-500">Este paciente no tiene historial clínico registrado.</p>
         </div>
-      </div>
-
-      <!-- Mensajes de error o carga -->
-      <div v-else-if="error" class="text-red-500 font-semibold">
-        {{ error }}
-      </div>
-      <div v-else>
-        <p class="text-gray-500">Cargando información...</p>
       </div>
     </div>
   </div>
