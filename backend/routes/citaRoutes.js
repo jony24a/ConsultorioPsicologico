@@ -2,16 +2,47 @@ const express = require('express');
 const router = express.Router();
 const citaController = require('../controllers/citaController');
 
-// Crear una nueva cita
-router.post('/', citaController.crearCita);
+// Middleware para validar datos de entrada
+const validarDatosCita = (req, res, next) => {
+  const { fecha, hora, lugar, pacienteId, personalId, consultorioId } = req.body;
 
-// Obtener todas las citas
-router.get('/', citaController.obtenerCitas);
+  if (!fecha || !hora || !lugar || !pacienteId || !personalId || !consultorioId) {
+    return res.status(400).json({ error: 'Todos los campos son obligatorios' });
+  }
+  next();
+};
 
-// Editar una cita existente
-router.put('/:id_cita', citaController.editarCita);
+// Middleware para logging
+const logRequest = (req, res, next) => {
+  console.log(`${req.method} - ${req.originalUrl} - ${new Date().toISOString()}`);
+  next();
+};
 
-// Eliminar una cita
-router.delete('/:id_cita', citaController.eliminarCita);
+
+router.post(
+  '/', 
+  logRequest, 
+  validarDatosCita, 
+  citaController.crearCita
+);
+
+router.get(
+  '/', 
+  logRequest, 
+  citaController.obtenerCitas
+);
+
+router.put(
+  '/:id_cita', 
+  logRequest, 
+  validarDatosCita, 
+  citaController.editarCita
+);
+
+router.delete(
+  '/:id_cita', 
+  logRequest, 
+  citaController.eliminarCita
+);
 
 module.exports = router;

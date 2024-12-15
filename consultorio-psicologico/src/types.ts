@@ -1,3 +1,5 @@
+import { NumericLiteral } from "typescript";
+
 export interface Paciente {
   numero_documento: number;
   tipo_documento: string;
@@ -12,12 +14,13 @@ export interface Paciente {
 }
 
 export interface Cita {
+  id_cita: number;
   fecha: string;
   hora: string;
   lugar: string;
-  numero_documento_paciente: number;
-  numero_documento_profesional?: number;
-  numero_documento_practicante?: number;
+  pacienteId: number;
+  personalId: number;
+  consultorioId: number;
 }
 
 export interface Personal {

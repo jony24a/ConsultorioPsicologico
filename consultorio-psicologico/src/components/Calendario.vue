@@ -8,7 +8,7 @@
           <button @click="prevWeek" class="p-2 hover:bg-gray-100 rounded-full">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-            </svg>
+            </svg> 
           </button>
           <button @click="nextWeek" class="p-2 hover:bg-gray-100 rounded-full">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -39,7 +39,7 @@
           </div>
 
           <!-- Columnas de días con citas -->
-          <template v-for="(day, dayIndex) in weekDays" :key="day.date">
+          <template v-for="(day) in weekDays" :key="day.date">
             <div class="border-r">
               <div v-for="hour in hours" :key="`${day.date}-${hour}`" class="h-auto min-h-[80px] border-b">
                 <div class="flex flex-col gap-1 p-1 overflow-y-auto max-h-full">
@@ -76,7 +76,7 @@
 import { defineComponent, ref, computed, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { Cita } from '../types';
-import { getCitas, deleteCita, updateCita } from '../services/api';
+import { getCitas} from '../services/api';
 
 export default defineComponent({
   name: 'CalendarioSemanal',
