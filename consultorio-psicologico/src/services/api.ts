@@ -80,4 +80,5 @@ export const getCitas = () => api.get<Cita[]>('/citas');
 // Crea una nueva cita
 export const createCita = (cita: Cita) => api.post<Cita>('/citas', cita);
 
+export const deleteCita = (id: number) => api.delete(`/citas/${id}`);
 export default api;

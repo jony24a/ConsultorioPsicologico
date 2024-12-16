@@ -51,7 +51,7 @@
                       <div class="text-xs text-gray-600 truncate">Consultorio: {{ cita.consultorioId }}</div>
                       <div class="flex gap-2 mt-2">
                         <button @click="editCita(cita)" class="text-blue-500 hover:text-blue-700">Editar</button>
-                        <button @click="deleteCita(cita.id_cita)" class="text-red-500 hover:text-red-700">Eliminar</button>
+                        <button @click="deleteCitaFromAPI(cita.id_cita)" class="text-red-500 hover:text-red-700">Eliminar</button>
                       </div>
                     </div>
                   </template>
@@ -76,7 +76,7 @@
 import { defineComponent, ref, computed, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { Cita } from '../types';
-import { getCitas} from '../services/api';
+import { getCitas, deleteCita } from '../services/api';
 
 export default defineComponent({
   name: 'CalendarioSemanal',
@@ -183,16 +183,15 @@ export default defineComponent({
 
     // Editar cita
     const editCita = (cita: Cita) => {
-      // Redirigir a la página de edición de la cita
       router.push({ name: 'EditarCita', params: { citaId: cita.id_cita } });
     };
 
     // Eliminar cita
-    const deleteCita = async (id: number) => {
+    const deleteCitaFromAPI = async (id: number) => {
       if (confirm('¿Estás seguro de que deseas eliminar esta cita?')) {
         try {
-          await deleteCita(id);
-          citas.value = citas.value.filter(cita => cita.id_cita !== id);
+          await deleteCita(id); // Llamada al servicio para eliminar la cita
+          citas.value = citas.value.filter(cita => cita.id_cita !== id); // Actualizar lista de citas
         } catch (err) {
           console.error('Error al eliminar cita:', err);
           error.value = 'No se pudo eliminar la cita';
@@ -215,7 +214,7 @@ export default defineComponent({
       getCitasForHourAndDay,
       goToBienvenida,
       editCita,
-      deleteCita,
+      deleteCitaFromAPI,
     };
   },
 });
