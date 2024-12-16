@@ -13,7 +13,7 @@ export interface Cita {
 // Obtener todas las citas
 export const obtenerCitas = async (): Promise<Cita[]> => {
   try {
-    const response = await api.get('/api/citas'); // Ruta ajustada al prefijo del backend
+    const response = await api.get('/citas');
     return response.data;
   } catch (error: any) {
     console.error('Error al obtener las citas:', error.response?.data || error.message);
@@ -24,7 +24,7 @@ export const obtenerCitas = async (): Promise<Cita[]> => {
 // Agregar una nueva cita
 export const agregarCita = async (cita: Cita): Promise<Cita> => {
   try {
-    const response = await api.post('/api/citas', cita);
+    const response = await api.post('/citas', cita);
     return response.data;
   } catch (error: any) {
     console.error('Error al agregar la cita:', error.response?.data || error.message);
@@ -35,7 +35,7 @@ export const agregarCita = async (cita: Cita): Promise<Cita> => {
 // Actualizar una cita existente
 export const editarCita = async (id_cita: number, cita: Cita): Promise<Cita> => {
   try {
-    const response = await api.put(`/api/citas/${id_cita}`, cita);
+    const response = await api.put(`/citas/${id_cita}`, cita);
     return response.data;
   } catch (error: any) {
     console.error(`Error al actualizar la cita con ID ${id_cita}:`, error.response?.data || error.message);
@@ -46,7 +46,7 @@ export const editarCita = async (id_cita: number, cita: Cita): Promise<Cita> => 
 // Eliminar una cita
 export const eliminarCita = async (id_cita: number): Promise<void> => {
   try {
-    await api.delete(`/api/citas/${id_cita}`);
+    await api.delete(`/citas/${id_cita}`);
   } catch (error: any) {
     console.error(`Error al eliminar la cita con ID ${id_cita}:`, error.response?.data || error.message);
     throw new Error(`No se pudo eliminar la cita con ID ${id_cita}.`);

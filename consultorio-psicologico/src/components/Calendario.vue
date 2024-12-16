@@ -6,14 +6,10 @@
         <h2 class="text-2xl font-bold">Calendario de Citas</h2>
         <div class="flex gap-2">
           <button @click="prevWeek" class="p-2 hover:bg-gray-100 rounded-full">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-            </svg> 
+            <!-- Icono de la semana anterior -->
           </button>
           <button @click="nextWeek" class="p-2 hover:bg-gray-100 rounded-full">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-            </svg>
+            <!-- Icono de la semana siguiente -->
           </button>
         </div>
         <span class="text-lg">{{ formatMonthYear }}</span>
@@ -46,11 +42,11 @@
                   <template v-for="cita in getCitasForHourAndDay(hour, day.date)" :key="cita.id_cita">
                     <div class="bg-blue-100 border-l-4 border-blue-600 rounded p-2 shadow-sm">
                       <div class="font-medium text-sm">Hora: {{ cita.hora }}</div>
-                      <div class="text-sm truncate">Paciente: {{ cita.pacienteId }}</div>
+                      <div class="text-sm truncate">Paciente: {{ cita.pacienteId }}</div>  
                       <div class="text-sm truncate">Profesional:  {{ cita.personalId }}</div>
                       <div class="text-xs text-gray-600 truncate">Consultorio: {{ cita.consultorioId }}</div>
                       <div class="flex gap-2 mt-2">
-                        <button @click="editCita(cita)" class="text-blue-500 hover:text-blue-700">Editar</button>
+                        <button @click="openEditModal(cita)" class="text-blue-500 hover:text-blue-700">Editar</button>
                         <button @click="deleteCitaFromAPI(cita.id_cita)" class="text-red-500 hover:text-red-700">Eliminar</button>
                       </div>
                     </div>
@@ -60,6 +56,39 @@
             </div>
           </template>
         </div>
+      </div>
+    </div>
+
+    <!-- Modal de Edición de Cita -->
+    <div v-if="isEditModalOpen" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center">
+      <div class="bg-white p-6 rounded-lg w-96">
+        <h3 class="text-xl font-semibold mb-4">Editar Cita</h3>
+        <form @submit.prevent="updateCita">
+          <div class="mb-4">
+            <label for="fecha" class="block text-sm font-medium">Fecha</label>
+            <input id="fecha" v-model="selectedCita.fecha" type="date" class="w-full p-2 border rounded" required />
+          </div>
+          <div class="mb-4">
+            <label for="hora" class="block text-sm font-medium">Hora</label>
+            <input id="hora" v-model="selectedCita.hora" type="time" class="w-full p-2 border rounded" required />
+          </div>
+          <div class="mb-4">
+            <label for="pacienteId" class="block text-sm font-medium">Paciente</label>
+            <input id="pacienteId" v-model="selectedCita.pacienteId" class="w-full p-2 border rounded" required />
+          </div>
+          <div class="mb-4">
+            <label for="personalId" class="block text-sm font-medium">Profesional</label>
+            <input id="personalId" v-model="selectedCita.personalId" class="w-full p-2 border rounded" required />
+          </div>
+          <div class="mb-4">
+            <label for="consultorioId" class="block text-sm font-medium">Consultorio</label>
+            <input id="consultorioId" v-model="selectedCita.consultorioId" class="w-full p-2 border rounded" required />
+          </div>
+          <div class="flex justify-end gap-4">
+            <button @click="closeEditModal" class="text-gray-500 hover:text-gray-700">Cancelar</button>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Actualizar</button>
+          </div>
+        </form>
       </div>
     </div>
 
@@ -76,7 +105,7 @@
 import { defineComponent, ref, computed, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { Cita } from '../types';
-import { getCitas, deleteCita } from '../services/api';
+import { getCitas, deleteCita, updateCita } from '../services/api';
 
 export default defineComponent({
   name: 'CalendarioSemanal',
@@ -87,6 +116,8 @@ export default defineComponent({
     const hours = Array.from({ length: 24 }, (_, i) => i);
     const loading = ref(false);
     const error = ref<string | null>(null);
+    const isEditModalOpen = ref(false);
+    const selectedCita = ref<Cita | null>(null);
 
     const weekDays = computed(() => {
       const days = [];
@@ -181,9 +212,34 @@ export default defineComponent({
       router.push({ name: 'Bienvenida' });
     };
 
-    // Editar cita
-    const editCita = (cita: Cita) => {
-      router.push({ name: 'EditarCita', params: { citaId: cita.id_cita } });
+    // Abrir el modal de edición
+    const openEditModal = (cita: Cita) => {
+      selectedCita.value = { ...cita }; // Copiar los datos de la cita seleccionada
+      isEditModalOpen.value = true;
+    };
+
+    // Cerrar el modal de edición
+    const closeEditModal = () => {
+      isEditModalOpen.value = false;
+      selectedCita.value = null;
+    };
+
+    // Actualizar la cita
+    const updateCita = async () => {
+      if (selectedCita.value) {
+        try {
+          await updateCita(selectedCita.value); // Llamada al servicio para actualizar la cita
+          // Actualizar la cita en la lista
+          const index = citas.value.findIndex(c => c.id_cita === selectedCita.value?.id_cita);
+          if (index !== -1) {
+            citas.value[index] = { ...selectedCita.value };
+          }
+          closeEditModal();
+        } catch (err) {
+          console.error('Error al actualizar cita:', err);
+          error.value = 'No se pudo actualizar la cita';
+        }
+      }
     };
 
     // Eliminar cita
@@ -213,12 +269,13 @@ export default defineComponent({
       formatHour,
       getCitasForHourAndDay,
       goToBienvenida,
-      editCita,
+      openEditModal,
+      closeEditModal,
+      updateCita,
       deleteCitaFromAPI,
+      isEditModalOpen,
+      selectedCita,
     };
   },
 });
 </script>
-
-<style scoped>
-</style>
