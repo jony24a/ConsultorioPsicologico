@@ -42,7 +42,7 @@
                   <template v-for="cita in getCitasForHourAndDay(hour, day.date)" :key="cita.id_cita">
                     <div class="bg-blue-100 border-l-4 border-blue-600 rounded p-2 shadow-sm">
                       <div class="font-medium text-sm">Hora: {{ cita.hora }}</div>
-                      <div class="text-sm truncate">Paciente: {{ cita.pacienteId }}</div>  
+                      <div class="text-sm truncate">Paciente : {{ cita.pacienteId }}</div>  
                       <div class="text-sm truncate">Profesional:  {{ cita.personalId }}</div>
                       <div class="text-xs text-gray-600 truncate">Consultorio: {{ cita.consultorioId }}</div>
                       <div class="flex gap-2 mt-2">
