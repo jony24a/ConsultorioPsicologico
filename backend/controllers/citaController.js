@@ -56,7 +56,7 @@ const obtenerCitas = async (req, res) => {
 // Editar una cita
 const editarCita = async (req, res) => {
   try {
-    const { id_cita } = req.params; // Cambiado a params
+    const { id_cita } = req.params;
     const { fecha, hora, lugar, pacienteId, personalId, consultorioId } = req.body;
 
     const citaExistente = await encontrarCita(id_cita);
@@ -87,7 +87,7 @@ const editarCita = async (req, res) => {
 // Eliminar una cita
 const eliminarCita = async (req, res) => {
   try {
-    const { id_cita } = req.params; // Cambiado a params
+    const { id_cita } = req.params;
 
     const citaExistente = await encontrarCita(id_cita);
 
@@ -95,6 +95,7 @@ const eliminarCita = async (req, res) => {
       return res.status(404).json({ error: 'Cita no encontrada' });
     }
 
+    // Elimina la cita; los registros relacionados se manejarán según las reglas de `onDelete`
     await prisma.cita.delete({
       where: { id_cita: parseInt(id_cita) },
     });

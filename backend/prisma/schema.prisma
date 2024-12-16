@@ -66,10 +66,11 @@ model HistorialClinico {
   tratamiento     String   @db.VarChar(200)
   estado_proceso  String   @db.VarChar(50)
   pacienteId      Int
-  citaId          Int
-  Cita            Cita     @relation(fields: [citaId], references: [id_cita])
+  citaId          Int?     // Permitir nulo
+  Cita            Cita?    @relation(fields: [citaId], references: [id_cita], onDelete: SetNull)
   Paciente        Paciente @relation(fields: [pacienteId], references: [numero_documento])
 }
+
 
 model HistorialConversacion {
   id            Int      @id @default(autoincrement())
