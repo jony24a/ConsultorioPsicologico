@@ -80,5 +80,15 @@ export const getCitas = () => api.get<Cita[]>('/citas');
 // Crea una nueva cita
 export const createCita = (cita: Cita) => api.post<Cita>('/citas', cita);
 
+// Elimina una cita por ID
 export const deleteCita = (id: number) => api.delete(`/citas/${id}`);
+
+// Actualiza una cita por ID (se asegura que id_cita sea un número válido)
+export const updateCita = (id_cita: number, cita: Cita) => {
+  if (isNaN(id_cita)) {
+    throw new Error('ID de cita no válido');
+  }
+  return api.put(`/citas/${id_cita}`, cita);
+};
+
 export default api;

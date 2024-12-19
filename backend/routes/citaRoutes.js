@@ -6,9 +6,18 @@ const citaController = require('../controllers/citaController');
 const validarDatosCita = (req, res, next) => {
   const { fecha, hora, lugar, pacienteId, personalId, consultorioId } = req.body;
 
-  if (!fecha || !hora || !lugar || !pacienteId || !personalId || !consultorioId) {
-    return res.status(400).json({ error: 'Todos los campos son obligatorios' });
+  // Para la creación de citas, todos los campos son obligatorios
+  if (req.method === 'POST') {
+    if (!fecha || !hora || !lugar || !pacienteId || !personalId || !consultorioId) {
+      return res.status(400).json({ error: 'Todos los campos son obligatorios' });
+    }
+  } else if (req.method === 'PUT') {
+    // Para la edición, solo validamos los campos proporcionados (no todos son obligatorios)
+    if (fecha && !hora && !lugar && !pacienteId && !personalId && !consultorioId) {
+      return res.status(400).json({ error: 'Se deben enviar al menos un campo a editar' });
+    }
   }
+  
   next();
 };
 

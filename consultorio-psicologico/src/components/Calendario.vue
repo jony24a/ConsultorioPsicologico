@@ -105,7 +105,7 @@
 import { defineComponent, ref, computed, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { Cita } from '../types';
-import { getCitas, deleteCita, updateCita } from '../services/api';
+import { getCitas, deleteCita, updateCita as updateCitaAPI } from '../services/api'; 
 
 export default defineComponent({
   name: 'CalendarioSemanal',
@@ -226,19 +226,25 @@ export default defineComponent({
 
     // Actualizar la cita
     const updateCita = async () => {
-      if (selectedCita.value) {
+      if (selectedCita.value && selectedCita.value.id_cita) {
         try {
-          await updateCita(selectedCita.value); // Llamada al servicio para actualizar la cita
-          // Actualizar la cita en la lista
+          // Pasar el id_cita y el objeto cita por separado
+          await updateCitaAPI(selectedCita.value.id_cita, selectedCita.value);
+          
+          // Actualizar la cita en la lista local
           const index = citas.value.findIndex(c => c.id_cita === selectedCita.value?.id_cita);
           if (index !== -1) {
             citas.value[index] = { ...selectedCita.value };
           }
           closeEditModal();
+          // Opcional: recargar todas las citas para asegurar sincronización
+          await fetchCitas();
         } catch (err) {
           console.error('Error al actualizar cita:', err);
           error.value = 'No se pudo actualizar la cita';
         }
+      } else {
+        error.value = 'La cita seleccionada no tiene un ID válido';
       }
     };
 
