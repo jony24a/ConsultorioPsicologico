@@ -94,7 +94,7 @@
 
     <!-- Botón para volver a la vista Bienvenida -->
     <div class="mt-4">
-      <button @click="goToBienvenida" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+      <button @click="goToBienvenida" class="px-4 py-2 bg-blue-950 text-white rounded-lg hover:bg-blue-900">
         Menu Principal
       </button>
     </div>

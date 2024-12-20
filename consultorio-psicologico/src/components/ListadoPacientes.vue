@@ -87,7 +87,7 @@
       <div class="mt-8 text-center">
         <button 
           @click="goToBienvenida"
-          class="px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition duration-200"
+          class="w-full px-4 py-2 bg-blue-950 text-white rounded-lg hover:bg-blue-900 focus:outline-none focus:shadow-outline"
         >
           Volver al Menú Principal
         </button>

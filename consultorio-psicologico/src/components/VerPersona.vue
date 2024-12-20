@@ -19,7 +19,7 @@
               />
               <p v-else><strong>{{ formatKey(key) }}:</strong> {{ value }}</p>
             </div>
-            <button type="submit" class="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+            <button type="submit" class="w-full px-4 py-2 bg-blue-950 text-white rounded-lg hover:bg-blue-900 focus:outline-none focus:shadow-outline">
               Actualizar Persona
             </button>
           </form>

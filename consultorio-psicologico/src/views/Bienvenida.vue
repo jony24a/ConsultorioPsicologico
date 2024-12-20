@@ -1,70 +1,86 @@
 <template>
-  <div class="bg-gray-100 min-h-screen flex flex-col items-center justify-center py-12">
-    <h1 class="text-4xl font-bold mb-6">Bienvenido al Sistema de Gestión del Consultorio Psicológico</h1>
-    <p class="text-xl mb-8">Seleccione una opción del menú para comenzar.</p>
-
-    <div class="w-full max-w-lg bg-white p-8 rounded-lg shadow-lg">
-      <!-- Formulario de botones en columna -->
-      <div class="space-y-4">
-        <button
-          @click="goTo('AgregarPaciente')"
-          class="w-full px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:shadow-outline text-xl"
-        >
-          Agregar Paciente
-        </button>
-        <button
-          @click="goTo('AgregarPersonal')"
-          class="w-full px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none focus:shadow-outline text-xl"
-        >
-          Agregar Personal
-        </button>
-        <button
-          @click="goTo('Calendario')"
-          class="w-full px-6 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 focus:outline-none focus:shadow-outline text-xl"
-        >
-          Calendario
-        </button>
-        <button
-          @click="goTo('HistorialClinico')"
-          class="w-full px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 focus:outline-none focus:shadow-outline text-xl"
-        >
-          Historial Clínico
-        </button>
-        <button
-          @click="goTo('ListadoPacientes')"
-          class="w-full px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 focus:outline-none focus:shadow-outline text-xl"
-        >
-          Listado de Pacientes
-        </button>
-        <button
-          @click="goTo('VerHistorialClinico')"
-          class="w-full px-6 py-3 bg-teal-500 text-white rounded-lg hover:bg-teal-600 focus:outline-none focus:shadow-outline text-xl"
-        >
-          Ver Historial Clínico
-        </button>
-      </div>
-
-      <!-- Formulario de búsqueda -->
-      <div class="mt-8">
-        <h2 class="text-2xl font-semibold mb-4">Buscar Persona por Cédula</h2>
-        <div class="flex items-center space-x-4">
-          <input
-            v-model="numeroDocumento"
-            type="text"
-            placeholder="Ingrese el número de cédula"
-            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200"
-          />
-          <button
-            @click="buscarPersona"
-            class="px-6 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 focus:outline-none focus:shadow-outline"
-          >
-            Buscar
-          </button>
+  <div class="min-h-screen bg-gray">
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-12">
+      <div class="max-w-4xl mx-auto"> 
+        <!-- Title Section -->
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold mb-4">
+            Bienvenido al Sistema de Gestión del Consultorio Psicológico
+          </h2>
+          <p class="text-gray-600">
+            Seleccione una opción del menu para comenzar
+          </p>
         </div>
+
+        <!-- Search Section (Arriba) -->
+        <div class="mb-12">
+          <h3 class="text-2xl font-bold mb-4 text-center">
+            Buscar Persona por Cédula
+          </h3>
+          <div class="flex gap-2 max-w-2xl mx-auto">
+            <input
+              v-model="numeroDocumento"
+              type="text"
+              placeholder="Ingrese el número de cédula"
+              class="flex-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-950"
+            />
+            <button
+              @click="buscarPersona"
+              class="px-6 py-2 bg-teal-900 text-white rounded-md hover:bg-teal-700 transition-colors"
+            >
+              Buscar
+            </button>
+          </div>
+        </div>
+
+        <!-- Button Grid Container (Con cuadro) -->
+        <div class="p-8 border-2 border-blue-950 rounded-md">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <button
+              @click="goTo('AgregarPaciente')"
+              class="p-4 bg-blue-950 text-white rounded-md hover:bg-blue-900 transition-colors"
+            >
+              Agregar Paciente
+            </button>
+            <button
+              @click="goTo('AgregarPersonal')"
+              class="p-4 bg-teal-900 text-white rounded-md hover:bg-teal-700 transition-colors"
+            >
+              Agregar Personal
+            </button>
+            <button
+              @click="goTo('Calendario')"
+              class="p-4 bg-blue-950 text-white rounded-md hover:bg-blue-900 transition-colors"
+            >
+              Calendario
+            </button>
+            <button
+              @click="goTo('HistorialClinico')"
+              class="p-4 bg-teal-900 text-white rounded-md hover:bg-teal-700 transition-colors"
+            >
+              Historial Clínico
+            </button>
+            <button
+              @click="goTo('ListadoPacientes')"
+              class="p-4 bg-blue-950 text-white rounded-md hover:bg-blue-900 transition-colors"
+            >
+              Listado de Pacientes
+            </button>
+            <button
+              @click="goTo('VerHistorialClinico')"
+              class="p-4 bg-teal-900 text-white rounded-md hover:bg-teal-700 transition-colors"
+            >
+              Ver Historial Clínico
+            </button>
+          </div>
+        </div> 
       </div>
     </div>
   </div>
 </template>
+
+
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';

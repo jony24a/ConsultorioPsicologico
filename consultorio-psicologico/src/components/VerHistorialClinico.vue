@@ -16,7 +16,6 @@
                   <th class="px-4 py-2 border border-gray-300 text-gray-700">Tratamiento</th>
                   <th class="px-4 py-2 border border-gray-300 text-gray-700">Estado del Proceso</th>
                   <th class="px-4 py-2 border border-gray-300 text-gray-700">Paciente ID</th>
-                  <th class="px-4 py-2 border border-gray-300 text-gray-700">Cita ID</th>
                 </tr>
               </thead>
               <tbody>
@@ -32,7 +31,6 @@
                   <td class="px-4 py-2 border border-gray-300">{{ historial.tratamiento }}</td>
                   <td class="px-4 py-2 border border-gray-300">{{ historial.estado_proceso }}</td>
                   <td class="px-4 py-2 border border-gray-300">{{ historial.pacienteId }}</td>
-                  <td class="px-4 py-2 border border-gray-300">{{ historial.citaId }}</td>
                 </tr>
               </tbody>
             </table>
@@ -41,7 +39,7 @@
         <div class="mt-8 text-center">
           <button
             @click="goToBienvenida"
-            class="px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition duration-200"
+            class="w-full px-4 py-2 bg-blue-950 text-white rounded-lg hover:bg-blue-900 focus:outline-none focus:shadow-outline"
           >
             Volver al Menu Principal
           </button>  
